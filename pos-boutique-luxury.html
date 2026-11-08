@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TkPOS - Luxury Boutique & Haute Joaillerie</title>
+  <script src="https://cdn.tailwindcss.com">
+    function openPosAIModal() {
+      document.getElementById("modal-pos-ai").classList.remove("hidden");
+      document.getElementById("modal-pos-ai").classList.add("flex");
+    }
+
+    function closePosAIModal() {
+      document.getElementById("modal-pos-ai").classList.add("hidden");
+      document.getElementById("modal-pos-ai").classList.remove("flex");
+    }
+
+    function setPosAIPrompt(txt) {
+      document.getElementById("pos-ai-prompt").value = txt;
+    }
+
+    function executePosAIChange() {
+      const prompt = document.getElementById("pos-ai-prompt").value.trim();
+      if (!prompt) return;
+
+      const freeStyles = ["modern-pro", "touch-kiosk", "fast-cashier"];
+      const currentStyle = (typeof currentStyleId !== "undefined" ? currentStyleId : (typeof currentFastStyleId !== "undefined" ? currentFastStyleId : (typeof currentLuxStyleId !== "undefined" ? currentLuxStyleId : (typeof currentRetroStyleId !== "undefined" ? currentRetroStyleId : ""))));
+      const isFree = freeStyles.includes(currentStyle);
+      const isPremiumUser = (localStorage.getItem("dmd_user_tier") === "PREMIUM" || localStorage.getItem("pos_license_tier") === "PREMIUM");
+
+      // 🔒 PAYWALL: Si es estilo premium y usuario es FREE, bloquear cualquier cambio
+      if (!isFree && !isPremiumUser) {
+        alert("🔒 ACCESO RESTRINGIDO: Esta plantilla de punto de venta es de categoría Premium. Para que la Inteligencia Artificial aplique cambios personalizados, activa tu Membresía Premium DMD por solo $79 MXN/mes.");
+        return;
+      }
+
+      // Aplicar cambios según instrucción
+      const lower = prompt.toLowerCase();
+      
+      // 1. Cambio de nombre
+      const nameMatch = prompt.match(/(?:nombre|tienda|negocio|llamada)s+(?:a|por)?s*["'“”]?([A-Za-zÁÉÍÓÚáéíóúñ0-9s&]{3,30})["'“”]?/i);
+      if (nameMatch) {
+        const newName = nameMatch[1].trim();
+        if (typeof currentBusiness !== "undefined") {
+          currentBusiness.settings.bizName = newName;
+          const el = document.getElementById("biz-title");
+          if (el) el.innerText = newName;
+        } else if (typeof curBiz !== "undefined") {
+          curBiz.settings.bizName = newName;
+          const el = document.getElementById("fast-biz-title");
+          if (el) el.innerText = newName.toUpperCase();
+        } else if (typeof luxBiz !== "undefined") {
+          luxBiz.settings.bizName = newName;
+          const el = document.getElementById("lux-title");
+          if (el) el.innerText = newName;
+        } else if (typeof retroBiz !== "undefined") {
+          retroBiz.settings.bizName = newName;
+          const el = document.getElementById("retro-biz-title");
+          if (el) el.innerText = newName.toUpperCase();
+        }
+      }
+
+      // 2. Cambio de moneda
+      if (lower.includes("usd") || lower.includes("dólar") || lower.includes("dolares")) {
+        if (typeof currentBusiness !== "undefined") currentBusiness.settings.currency = "USD $";
+        if (typeof curBiz !== "undefined") curBiz.settings.currency = "USD $";
+        if (typeof luxBiz !== "undefined") luxBiz.settings.currency = "USD $";
+        if (typeof retroBiz !== "undefined") retroBiz.settings.currency = "USD $";
+      }
+
+      // 3. Aumento o reducción de precios
+      if (lower.includes("10%")) {
+        const factor = lower.includes("descuento") || lower.includes("reduc") ? 0.9 : 1.1;
+        const biz = (typeof currentBusiness !== "undefined" ? currentBusiness : (typeof curBiz !== "undefined" ? curBiz : (typeof luxBiz !== "undefined" ? luxBiz : retroBiz)));
+        if (biz && biz.products) {
+          biz.products.forEach(p => p.price = parseFloat((p.price * factor).toFixed(2)));
+        }
+      }
+
+      alert("✨ ¡La IA ha aplicado tus cambios en este punto de venta!");
+      closePosAIModal();
+
+      if (typeof renderProducts === "function") renderProducts();
+      if (typeof renderFastTable === "function") renderFastTable();
+      if (typeof renderLuxGrid === "function") renderLuxGrid();
+      if (typeof renderRetroProds === "function") renderRetroProds();
+    }
+
+  </script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="plantillas/templates.js"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,800;1,400&family=Plus+Jakarta+Sans:wght@300;400;600;700&display=swap');
+    .font-serif-luxury { font-family: 'Playfair Display', serif; }
+    .font-sans-luxury { font-family: 'Plus Jakarta Sans', sans-serif; }
+    @media print {
+      body * { visibility: hidden !important; }
+      #print-area, #print-area * { visibility: visible !important; }
+      #print-area { position: absolute; left: 0; top: 0; width: 80mm; margin: 0 auto; padding: 10px; font-family: monospace; font-size: 12px; }
+    }
+  </style>
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+  <link rel="apple-touch-icon-precomposed" href="apple-touch-icon.png">
+    <meta property="og:type" content="website">
+  <meta property="og:site_name" content="DMD | Digital Mijma Dreams">
+  <meta property="og:title" content="TkPOS - Luxury Boutique &amp; Haute Joaillerie">
+  <meta property="og:description" content="Punto de venta TkPOS para boutique de lujo y joyería.">
+  <meta property="og:image" content="https://www.dmdmx.dev/assets/social/og-dmd.jpg">
+  <meta property="og:image:secure_url" content="https://www.dmdmx.dev/assets/social/og-dmd.jpg">
+  <meta property="og:image:type" content="image/jpeg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="TkPOS - Luxury Boutique &amp; Haute Joaillerie · DMD Digital Mijma Dreams">
+  <meta property="og:url" content="https://dmd-pos.vercel.app/pos-boutique-luxury.html">
+  <meta property="og:locale" content="es_MX">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="TkPOS - Luxury Boutique &amp; Haute Joaillerie">
+  <meta name="twitter:description" content="Punto de venta TkPOS para boutique de lujo y joyería.">
+  <meta name="twitter:image" content="https://www.dmdmx.dev/assets/social/og-dmd.jpg">
+  <meta name="twitter:image:alt" content="TkPOS - Luxury Boutique &amp; Haute Joaillerie · DMD Digital Mijma Dreams">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+
+  <!-- Twitter / X Card Meta Tags -->
+  
+  
+  
+  
+</head>
+<body class="bg-white text-slate-800 font-sans-luxury h-screen flex flex-col antialiased select-none overflow-hidden">
+
+  <!-- LUXURY HEADER CON FONDO BLANCO Y BOTONES CON CONTORNO AZUL REY -->
+  <header class="h-20 bg-white border-b border-slate-200 px-6 sm:px-8 flex items-center justify-between flex-shrink-0 shadow-xs">
+    <div class="flex items-center space-x-4 sm:space-x-6">
+      <a href="punto-de-venta.html" class="border-2 border-blue-600 bg-white text-blue-700 hover:bg-blue-50 px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-xl transition flex items-center space-x-2 text-xs uppercase tracking-widest font-black shadow-xs">
+        <i data-lucide="arrow-left" class="w-4 h-4"></i>
+        <span class="hidden sm:inline">Plantillas</span>
+      </a>
+      <div class="border-l border-slate-200 pl-4 sm:pl-6">
+        <span class="text-[10px] tracking-[0.25em] text-blue-600 uppercase font-bold">Haute Boutique Edition</span>
+        <h1 class="text-xl sm:text-2xl font-serif-luxury text-slate-900 tracking-wide font-bold" id="lux-title">Maison de Luxe</h1>
+      </div>
+    </div>
+
+    <div class="flex items-center space-x-2.5 sm:space-x-3">
+      <!-- Botón Corte de Caja -->
+      <button onclick="openLuxCorteModal()" class="border-2 border-emerald-600 bg-white text-emerald-700 hover:bg-emerald-50 px-3 py-1.5 rounded-xl font-bold text-xs flex items-center space-x-1.5 transition shadow-xs">
+        <i data-lucide="calculator" class="w-3.5 h-3.5 text-emerald-600"></i>
+        <span class="hidden sm:inline">Arqueo de Turno</span>
+      </button>
+
+      <button onclick="downloadCurrentLuxPOS()" class="border-2 border-blue-600 bg-white text-blue-700 hover:bg-blue-50 px-3 py-1.5 rounded-xl font-bold text-xs flex items-center space-x-1.5 transition shadow-xs" title="Descargar este punto de venta boutique">
+        <i data-lucide="download" class="w-4 h-4 text-blue-600"></i>
+        <span class="hidden md:inline">Descargar POS</span>
+      </button>
+
+      <select id="lux-select-biz" onchange="loadLuxBiz(this.value)" class="bg-white text-slate-800 border-2 border-blue-600 rounded-xl px-3 py-1.5 text-xs font-bold focus:outline-none focus:ring-2 focus:ring-blue-500 shadow-xs">
+        <!-- opciones -->
+      </select>
+
+      <select id="select-style" onchange="changeLuxStyleTheme(this.value)" class="bg-white text-slate-800 border-2 border-blue-600 rounded-xl px-2.5 py-1.5 text-xs font-bold focus:outline-none shadow-xs" title="Paleta de Colores y Estilo">
+        <!-- opciones estilos -->
+      </select>
+    </div>
+  </header>
+
+  <!-- CONTENT -->
+  <div class="flex-1 flex overflow-hidden">
+    <!-- PRODUCT SHOWCASE (LEFT) -->
+    <div class="flex-1 flex flex-col p-4 sm:p-6 lg:p-8 overflow-hidden bg-white">
+      
+      <!-- Buscador de boutique -->
+      <div class="mb-4 flex gap-2">
+        <div class="relative flex-1">
+          <i data-lucide="search" class="w-4 h-4 absolute left-3.5 top-3 text-blue-600"></i>
+          <input type="text" id="lux-search-input" oninput="filterLuxProducts(this.value)" placeholder="Buscar en la colección por nombre o referencia..." 
+            class="w-full pl-10 pr-4 py-2 border-2 border-slate-200 focus:border-blue-600 rounded-xl text-xs sm:text-sm font-semibold bg-slate-50 focus:bg-white transition focus:outline-none">
+        </div>
+      </div>
+
+      <!-- Category tabs con contorno azul rey -->
+      <div class="flex space-x-2 sm:space-x-3 overflow-x-auto pb-3 mb-2" id="lux-cats">
+        <!-- dinámico -->
+      </div>
+
+      <!-- Grid -->
+      <div class="flex-1 overflow-y-auto pr-1">
+        <div id="lux-grid" class="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
+          <!-- tarjetas -->
+        </div>
+      </div>
+    </div>
+
+    <!-- CART / TICKET (RIGHT) -->
+    <div class="w-80 sm:w-96 lg:w-[440px] bg-slate-50 border-l border-slate-200 flex flex-col h-full shadow-lg flex-shrink-0">
+      <div class="p-4 sm:p-6 bg-white border-b border-slate-200 flex justify-between items-center">
+        <div>
+          <span class="text-[10px] tracking-widest text-blue-600 uppercase font-black">Sélection Client</span>
+          <h3 class="text-base sm:text-lg font-serif-luxury text-slate-900 font-bold">Bolsa de Compras</h3>
+        </div>
+        <button onclick="clearLuxCart()" class="text-xs text-rose-600 hover:text-rose-700 uppercase tracking-wider font-bold bg-white border-2 border-rose-200 px-3 py-1 rounded-lg">
+          Vaciar
+        </button>
+      </div>
+
+      <div id="lux-cart-items" class="flex-1 overflow-y-auto p-4 sm:p-6 space-y-3 sm:space-y-4">
+        <!-- items -->
+      </div>
+
+      <!-- Total & Checkout -->
+      <div class="p-4 sm:p-6 bg-white border-t border-slate-200 space-y-3 sm:space-y-4">
+        <div class="space-y-1 text-xs">
+          <div class="flex justify-between text-slate-400">
+            <span>Subtotal:</span>
+            <span id="lux-subtotal" class="font-mono">$0.00</span>
+          </div>
+          <div class="flex justify-between text-slate-400">
+            <span>IVA (16% incl.):</span>
+            <span id="lux-iva" class="font-mono">$0.00</span>
+          </div>
+        </div>
+
+        <div class="flex justify-between items-baseline pt-2 border-t border-slate-100">
+          <span class="text-xs uppercase tracking-widest text-slate-500 font-bold">Total a liquidar:</span>
+          <span id="lux-cart-total" class="text-2xl sm:text-3xl font-serif-luxury text-blue-600 font-bold font-mono">$0.00</span>
+        </div>
+
+        <!-- Botón formalizar con contorno azul rey -->
+        <button onclick="openLuxPayModal()" id="btn-lux-pay" disabled
+          class="w-full py-3.5 sm:py-4 bg-white hover:bg-blue-600 text-blue-700 hover:text-white border-2 border-blue-600 disabled:opacity-40 disabled:cursor-not-allowed font-black uppercase tracking-widest text-xs rounded-xl shadow-md transition-all flex items-center justify-center space-x-2 active:scale-98">
+          <i data-lucide="gem" class="w-4 h-4"></i>
+          <span>Formalizar Venta</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL DE COBRO BOUTIQUE -->
+  <div id="modal-lux-pay" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden items-center justify-center p-4">
+    <div class="bg-white border-2 border-blue-600 rounded-3xl shadow-2xl max-w-md w-full p-6 space-y-4 animate-in fade-in zoom-in-95">
+      <div class="flex justify-between items-center border-b pb-3">
+        <div>
+          <h3 class="text-lg font-serif-luxury font-black text-slate-900">Liquidación de Compra</h3>
+          <p class="text-xs text-slate-400">Seleccione el medio de pago preferido</p>
+        </div>
+        <button onclick="closeLuxPayModal()" class="text-slate-400 hover:text-slate-600"><i data-lucide="x" class="w-5 h-5"></i></button>
+      </div>
+
+      <div class="p-3 bg-blue-50/50 rounded-2xl border border-blue-100 text-center">
+        <span class="text-[10px] tracking-widest text-slate-500 uppercase font-bold">Monto Total</span>
+        <div class="text-3xl font-serif-luxury font-black text-blue-700 font-mono mt-0.5" id="lux-pay-modal-total">$0.00</div>
+      </div>
+
+      <div class="grid grid-cols-3 gap-2">
+        <button onclick="setLuxPaymentMethod('Tarjeta')" id="lux-p-card" class="py-2.5 rounded-xl text-center font-bold text-xs border-2 border-blue-600 bg-blue-600 text-white">
+          Tarjeta VIP
+        </button>
+        <button onclick="setLuxPaymentMethod('Efectivo')" id="lux-p-cash" class="py-2.5 rounded-xl text-center font-bold text-xs border border-slate-300 bg-white text-slate-700 hover:border-blue-600">
+          Efectivo
+        </button>
+        <button onclick="setLuxPaymentMethod('Transferencia')" id="lux-p-spei" class="py-2.5 rounded-xl text-center font-bold text-xs border border-slate-300 bg-white text-slate-700 hover:border-blue-600">
+          SPEI Directo
+        </button>
+      </div>
+
+      <div id="lux-cash-fields" class="hidden space-y-2.5">
+        <label class="text-xs font-bold text-slate-600">Importe recibido:</label>
+        <input type="number" id="lux-cash-received" oninput="calcLuxChange()" step="any" placeholder="0.00" class="w-full px-3 py-2 border-2 border-blue-600 rounded-xl text-lg font-bold font-mono">
+        <div class="flex justify-between p-2.5 bg-slate-50 rounded-xl text-xs font-bold">
+          <span>Cambio a devolver:</span>
+          <span id="lux-change-val" class="font-mono text-emerald-700 font-black">$0.00</span>
+        </div>
+      </div>
+
+      <button onclick="confirmLuxSale()" class="w-full py-3.5 bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs uppercase tracking-widest rounded-xl transition shadow-md">
+        Confirmar y Generar Certificado
+      </button>
+    </div>
+  </div>
+
+  <!-- MODAL TICKET & CERTIFICADO -->
+  <div id="modal-ticket" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden items-center justify-center p-4">
+    <div class="bg-white border-2 border-slate-300 rounded-3xl shadow-2xl max-w-sm w-full p-5 space-y-4 animate-in fade-in zoom-in-95 max-h-[90vh] flex flex-col">
+      <div class="flex justify-between items-center border-b pb-2">
+        <h3 class="text-sm font-serif-luxury font-bold text-slate-900">Comprobante de Venta Boutique</h3>
+        <button onclick="closeTicketModal()" class="text-slate-400 hover:text-slate-600"><i data-lucide="x" class="w-5 h-5"></i></button>
+      </div>
+
+      <div class="flex-1 overflow-y-auto bg-slate-50 p-4 border border-dashed border-slate-300 rounded-xl font-mono text-[11px] leading-relaxed text-slate-800" id="lux-ticket-box">
+        <!-- Ticket -->
+      </div>
+
+      <div class="space-y-2 pt-1">
+        <button onclick="window.print()" class="w-full py-2.5 bg-slate-900 hover:bg-black text-white rounded-xl font-bold text-xs flex items-center justify-center space-x-2 transition shadow-xs">
+          <i data-lucide="printer" class="w-4 h-4"></i>
+          <span>Imprimir Comprobante</span>
+        </button>
+        <button onclick="sendLuxWhatsApp()" class="w-full py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl font-bold text-xs flex items-center justify-center space-x-2 transition shadow-xs">
+          <i data-lucide="send" class="w-4 h-4"></i>
+          <span>Enviar por WhatsApp</span>
+        </button>
+        <button onclick="closeTicketModal()" class="w-full py-2 bg-white border border-slate-300 text-slate-700 rounded-xl font-bold text-xs">
+          Siguiente Cliente
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL CORTE -->
+  <div id="modal-corte" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden items-center justify-center p-4">
+    <div class="bg-white border-2 border-emerald-600 rounded-3xl shadow-2xl max-w-sm w-full p-5 space-y-4 animate-in fade-in zoom-in-95">
+      <div class="flex justify-between items-center border-b pb-2">
+        <h3 class="font-serif-luxury font-bold text-slate-900">Arqueo de Turno Boutique</h3>
+        <button onclick="closeLuxCorteModal()" class="text-slate-400 hover:text-slate-600"><i data-lucide="x" class="w-5 h-5"></i></button>
+      </div>
+      <div class="space-y-2 text-xs">
+        <div class="p-3 bg-blue-50/50 rounded-xl border flex justify-between font-mono">
+          <span class="font-bold">Total Facturado:</span>
+          <span id="lux-corte-total" class="font-black text-blue-700">$0.00</span>
+        </div>
+        <div class="flex justify-between"><span>Ventas registradas:</span><strong id="lux-corte-count">0</strong></div>
+        <div class="flex justify-between"><span>Pagos Tarjeta:</span><span id="lux-corte-card" class="font-mono">$0.00</span></div>
+        <div class="flex justify-between"><span>Pagos Efectivo:</span><span id="lux-corte-cash" class="font-mono">$0.00</span></div>
+      </div>
+      <button onclick="closeLuxCorteModal()" class="w-full py-2 bg-slate-900 text-white rounded-xl font-bold text-xs">Cerrar</button>
+    </div>
+  </div>
+
+  <div id="print-area"></div>
+
+  <script>
+    let luxBiz = BUSINESS_TEMPLATES.find(t => t.id === 'joyeria') || BUSINESS_TEMPLATES[0];
+    let luxActiveCat = "ALL";
+    let luxCart = [];
+    let luxSearchTerm = "";
+    let luxSalesHistory = [];
+    let luxFolio = 1001;
+    let luxMethod = "Tarjeta";
+    let lastLuxSale = null;
+    let currentLuxStyleId = "luxury-dark";
+
+    function applyLuxStyleTheme(styleId) {
+      currentLuxStyleId = styleId;
+      const st = (typeof STYLE_THEMES !== "undefined" && STYLE_THEMES[styleId]) 
+        ? STYLE_THEMES[styleId] 
+        : { accent: '#d97706', border: '#f59e0b', topbarBg: 'linear-gradient(135deg, #18181b 0%, #27272a 100%)', topbarText: '#fbbf24', screenBg: '#121215', textColor: '#fafafa', cardBg: '#18181b', isDark: true };
+
+      let styleEl = document.getElementById("dynamic-pos-theme");
+      if (!styleEl) {
+        styleEl = document.createElement("style");
+        styleEl.id = "dynamic-pos-theme";
+        document.head.appendChild(styleEl);
+      }
+
+      styleEl.innerHTML = `
+        :root {
+          --theme-accent: ${st.accent};
+        }
+        body {
+          background-color: ${st.screenBg} !important;
+          color: ${st.textColor} !important;
+        }
+        header {
+          background: ${st.topbarBg} !important;
+          border-color: ${st.border} !important;
+          color: ${st.topbarText} !important;
+        }
+        header a, header button, header select {
+          border-color: rgba(255, 255, 255, 0.4) !important;
+          color: ${st.topbarText} !important;
+          background: rgba(255, 255, 255, 0.15) !important;
+        }
+        #lux-title {
+          color: ${st.topbarText} !important;
+        }
+        #lux-cart-total {
+          color: ${st.accent} !important;
+        }
+        #btn-lux-pay:not(:disabled) {
+          background-color: ${st.accent} !important;
+          border-color: ${st.border} !important;
+          color: #ffffff !important;
+          box-shadow: 0 4px 14px ${st.accent}44 !important;
+        }
+      `;
+
+      const selStyle = document.getElementById("select-style");
+      if (selStyle && selStyle.value !== styleId) {
+        selStyle.value = styleId;
+      }
+    }
+
+    function changeLuxStyleTheme(styleId) {
+      applyLuxStyleTheme(styleId);
+      const url = new URL(window.location);
+      url.searchParams.set("style", styleId);
+      window.history.replaceState({}, '', url);
+      renderLuxCats();
+      renderLuxGrid();
+      renderLuxCart();
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const urlGiro = urlParams.get("giro") || localStorage.getItem("pos_current_giro");
+      const urlStyle = urlParams.get("style") || "luxury-dark";
+
+      const selStyle = document.getElementById("select-style");
+      if (selStyle && typeof TEMPLATE_STYLES !== "undefined") {
+        selStyle.innerHTML = TEMPLATE_STYLES.map(s => `<option value="${s.id}" ${s.id === urlStyle ? 'selected' : ''}>${s.name}</option>`).join('');
+      }
+      applyLuxStyleTheme(urlStyle);
+
+      const sel = document.getElementById("lux-select-biz");
+      sel.innerHTML = BUSINESS_TEMPLATES.map(t => `<option value="${t.id}">${t.name}</option>`).join('');
+
+      if (urlGiro) {
+        const found = BUSINESS_TEMPLATES.find(t => t.id === urlGiro);
+        if (found) luxBiz = found;
+      }
+      sel.value = luxBiz.id;
+
+      try {
+        const saved = localStorage.getItem(`pos_sales_${luxBiz.id}`);
+        if (saved) luxSalesHistory = JSON.parse(saved);
+      } catch (e) {}
+
+      luxFolio = 1000 + luxSalesHistory.length + 1;
+      document.getElementById("lux-title").innerText = luxBiz.settings.bizName || luxBiz.name;
+
+      renderLuxCats();
+      renderLuxGrid();
+      lucide.createIcons();
+    });
+
+    function loadLuxBiz(id) {
+      const b = BUSINESS_TEMPLATES.find(x => x.id === id);
+      if (b) {
+        luxBiz = b;
+        localStorage.setItem("pos_current_giro", b.id);
+        document.getElementById("lux-title").innerText = b.settings.bizName || b.name;
+        luxActiveCat = "ALL";
+        luxCart = [];
+        try {
+          const saved = localStorage.getItem(`pos_sales_${b.id}`);
+          luxSalesHistory = saved ? JSON.parse(saved) : [];
+        } catch (e) { luxSalesHistory = []; }
+        luxFolio = 1000 + luxSalesHistory.length + 1;
+        renderLuxCats();
+        renderLuxGrid();
+        renderLuxCart();
+      }
+    }
+
+    function filterLuxProducts(term) {
+      luxSearchTerm = term.trim().toLowerCase();
+      renderLuxGrid();
+    }
+
+    function renderLuxCats() {
+      const cats = ["ALL", ...new Set(luxBiz.products.map(p => p.category))];
+      document.getElementById("lux-cats").innerHTML = cats.map(c => `
+        <button onclick="setLuxCat('${c}')" class="px-4 py-2 rounded-xl text-xs uppercase tracking-wider font-bold transition whitespace-nowrap border-2 ${luxActiveCat === c ? 'bg-blue-600 text-white border-blue-600 shadow-sm' : 'bg-white text-slate-600 hover:text-blue-600 border-slate-200'}">
+          ${c === 'ALL' ? '✦ Toda la Colección' : c}
+        </button>
+      `).join('');
+    }
+
+    function setLuxCat(c) {
+      luxActiveCat = c;
+      renderLuxCats();
+      renderLuxGrid();
+    }
+
+    function renderLuxGrid() {
+      const grid = document.getElementById("lux-grid");
+      let list = luxBiz.products.filter(p => luxActiveCat === "ALL" || p.category === luxActiveCat);
+      const curr = luxBiz.settings.currency || '$';
+
+      if (luxSearchTerm) {
+        list = list.filter(p => p.name.toLowerCase().includes(luxSearchTerm) || p.category.toLowerCase().includes(luxSearchTerm));
+      }
+
+      grid.innerHTML = list.map(p => `
+        <div onclick="addLux('${p.id}')" class="group bg-white p-4 rounded-2xl border-2 border-slate-200 hover:border-blue-600 cursor-pointer transition shadow-xs flex flex-col justify-between">
+          <div>
+            <div class="flex justify-between items-center text-[10px] tracking-widest uppercase text-slate-400 font-bold mb-1">
+              <span>${p.category}</span>
+              <span class="text-blue-600">Disponible</span>
+            </div>
+            <h4 class="font-serif-luxury font-bold text-slate-900 text-sm group-hover:text-blue-600 transition leading-snug">${p.name}</h4>
+          </div>
+          <div class="mt-4 pt-3 border-t border-slate-100 flex justify-between items-baseline">
+            <span class="text-lg font-serif-luxury font-bold text-slate-900 font-mono">${curr}${p.price.toFixed(2)}</span>
+            <span class="text-[10px] text-blue-600 uppercase font-bold tracking-wider group-hover:underline">+ Añadir</span>
+          </div>
+        </div>
+      `).join('');
+      lucide.createIcons();
+    }
+
+    function addLux(id) {
+      const prod = luxBiz.products.find(p => p.id === id);
+      if (!prod) return;
+      const ex = luxCart.find(i => i.product.id === id);
+      if (ex) ex.qty += 1;
+      else luxCart.push({ product: prod, qty: 1 });
+      renderLuxCart();
+    }
+
+    function updateLuxQty(idx, delta) {
+      luxCart[idx].qty += delta;
+      if (luxCart[idx].qty <= 0) luxCart.splice(idx, 1);
+      renderLuxCart();
+    }
+
+    function clearLuxCart() {
+      luxCart = [];
+      renderLuxCart();
+    }
+
+    function renderLuxCart() {
+      const container = document.getElementById("lux-cart-items");
+      const btn = document.getElementById("btn-lux-pay");
+      const totalEl = document.getElementById("lux-cart-total");
+      const subtotalEl = document.getElementById("lux-subtotal");
+      const ivaEl = document.getElementById("lux-iva");
+      const curr = luxBiz.settings.currency || '$';
+
+      if (luxCart.length === 0) {
+        container.innerHTML = `<div class="py-16 text-center text-slate-400 text-xs tracking-wider uppercase font-semibold">Ningún artículo seleccionado</div>`;
+        btn.disabled = true;
+        totalEl.innerText = "$0.00";
+        subtotalEl.innerText = "$0.00";
+        ivaEl.innerText = "$0.00";
+        return;
+      }
+
+      btn.disabled = false;
+      const total = luxCart.reduce((acc, i) => acc + (i.qty * i.product.price), 0);
+      const sub = total / 1.16;
+      const iva = total - sub;
+
+      totalEl.innerText = `${curr}${total.toFixed(2)}`;
+      subtotalEl.innerText = `${curr}${sub.toFixed(2)}`;
+      ivaEl.innerText = `${curr}${iva.toFixed(2)}`;
+
+      container.innerHTML = luxCart.map((i, idx) => `
+        <div class="p-3 bg-white rounded-xl border-2 border-slate-200 flex items-center justify-between shadow-xs">
+          <div class="flex-1 pr-3">
+            <div class="text-xs font-serif-luxury text-slate-900 font-bold truncate">${i.product.name}</div>
+            <div class="text-[10px] text-blue-600 font-mono font-bold">${curr}${i.product.price.toFixed(2)} c/u</div>
+          </div>
+          <div class="flex items-center space-x-1.5">
+            <button onclick="updateLuxQty(${idx}, -1)" class="w-6 h-6 rounded-lg border-2 border-blue-600 bg-white text-blue-700 font-black flex items-center justify-center text-xs">-</button>
+            <span class="text-xs font-bold text-slate-800 w-5 text-center font-mono">${i.qty}</span>
+            <button onclick="updateLuxQty(${idx}, 1)" class="w-6 h-6 rounded-lg border-2 border-blue-600 bg-white text-blue-700 font-black flex items-center justify-center text-xs">+</button>
+            <span class="text-xs font-serif-luxury text-slate-900 font-black w-14 text-right font-mono">${curr}${(i.qty * i.product.price).toFixed(2)}</span>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function openLuxPayModal() {
+      const total = luxCart.reduce((acc, i) => acc + (i.qty * i.product.price), 0);
+      const curr = luxBiz.settings.currency || '$';
+      document.getElementById("lux-pay-modal-total").innerText = `${curr}${total.toFixed(2)}`;
+      setLuxPaymentMethod('Tarjeta');
+      document.getElementById("modal-lux-pay").classList.remove("hidden");
+      document.getElementById("modal-lux-pay").classList.add("flex");
+      lucide.createIcons();
+    }
+
+    function closeLuxPayModal() {
+      document.getElementById("modal-lux-pay").classList.add("hidden");
+      document.getElementById("modal-lux-pay").classList.remove("flex");
+    }
+
+    function setLuxPaymentMethod(m) {
+      luxMethod = m;
+      const bCard = document.getElementById("lux-p-card");
+      const bCash = document.getElementById("lux-p-cash");
+      const bSpei = document.getElementById("lux-p-spei");
+      const cBox = document.getElementById("lux-cash-fields");
+
+      [bCard, bCash, bSpei].forEach(b => b.className = "py-2.5 rounded-xl text-center font-bold text-xs border border-slate-300 bg-white text-slate-700 hover:border-blue-600");
+
+      if (m === 'Tarjeta') {
+        bCard.className = "py-2.5 rounded-xl text-center font-bold text-xs border-2 border-blue-600 bg-blue-600 text-white";
+        cBox.classList.add("hidden");
+      } else if (m === 'Efectivo') {
+        bCash.className = "py-2.5 rounded-xl text-center font-bold text-xs border-2 border-blue-600 bg-blue-600 text-white";
+        cBox.classList.remove("hidden");
+        const total = luxCart.reduce((acc, i) => acc + (i.qty * i.product.price), 0);
+        document.getElementById("lux-cash-received").value = total.toFixed(2);
+        calcLuxChange();
+      } else {
+        bSpei.className = "py-2.5 rounded-xl text-center font-bold text-xs border-2 border-blue-600 bg-blue-600 text-white";
+        cBox.classList.add("hidden");
+      }
+    }
+
+    function calcLuxChange() {
+      const total = luxCart.reduce((acc, i) => acc + (i.qty * i.product.price), 0);
+      const curr = luxBiz.settings.currency || '$';
+      const rec = parseFloat(document.getElementById("lux-cash-received").value) || 0;
+      const chg = Math.max(0, rec - total);
+      document.getElementById("lux-change-val").innerText = `${curr}${chg.toFixed(2)}`;
+    }
+
+    function confirmLuxSale() {
+      const total = luxCart.reduce((acc, i) => acc + (i.qty * i.product.price), 0);
+      const curr = luxBiz.settings.currency || '$';
+      const rec = luxMethod === 'Efectivo' ? (parseFloat(document.getElementById("lux-cash-received").value) || total) : total;
+
+      const record = {
+        folio: `BTQ-#${luxFolio}`,
+        date: new Date().toLocaleDateString(),
+        time: new Date().toLocaleTimeString(),
+        items: [...luxCart],
+        subtotal: total / 1.16,
+        iva: total - (total / 1.16),
+        total: total,
+        method: luxMethod,
+        received: rec,
+        change: Math.max(0, rec - total),
+        bizName: luxBiz.settings.bizName || luxBiz.name
+      };
+
+      luxSalesHistory.push(record);
+      try {
+        localStorage.setItem(`pos_sales_${luxBiz.id}`, JSON.stringify(luxSalesHistory));
+      } catch (e) {}
+
+      lastLuxSale = record;
+      closeLuxPayModal();
+      showLuxTicket(record);
+      luxFolio++;
+      clearLuxCart();
+    }
+
+    function showLuxTicket(sale) {
+      const curr = luxBiz.settings.currency || '$';
+      const html = `
+        <div class="text-center pb-2 border-b border-dashed border-slate-300">
+          <div class="font-serif-luxury font-black text-sm uppercase">${sale.bizName}</div>
+          <div class="text-[9px] text-slate-500">Haute Boutique Experience · Certificado de Adquisición</div>
+        </div>
+        <div class="py-1.5 border-b border-dashed border-slate-300 text-[10px]">
+          <div>FOLIO: <strong>${sale.folio}</strong></div>
+          <div>FECHA: ${sale.date} ${sale.time}</div>
+          <div>MÉTODO: ${sale.method}</div>
+        </div>
+        <div class="py-1.5 border-b border-dashed border-slate-300">
+          ${sale.items.map(i => `
+            <div class="flex justify-between text-[10px] py-0.5">
+              <span>${i.qty}x ${i.product.name}</span>
+              <span class="font-mono font-bold">${curr}${(i.qty * i.product.price).toFixed(2)}</span>
+            </div>
+          `).join('')}
+        </div>
+        <div class="py-1.5 border-b border-dashed border-slate-300 text-[10px] space-y-0.5">
+          <div class="flex justify-between"><span>Subtotal:</span><span>${curr}${sale.subtotal.toFixed(2)}</span></div>
+          <div class="flex justify-between"><span>IVA (16%):</span><span>${curr}${sale.iva.toFixed(2)}</span></div>
+          <div class="flex justify-between font-black text-xs pt-1 border-t">
+            <span>TOTAL:</span>
+            <span>${curr}${sale.total.toFixed(2)}</span>
+          </div>
+        </div>
+        <div class="text-center pt-2 text-[9px] text-slate-400">
+          GRACIAS POR ELEGIR NUESTRA MAISON
+        </div>
+      `;
+
+      document.getElementById("lux-ticket-box").innerHTML = html;
+      document.getElementById("print-area").innerHTML = html;
+      document.getElementById("modal-ticket").classList.remove("hidden");
+      document.getElementById("modal-ticket").classList.add("flex");
+      lucide.createIcons();
+    }
+
+    function closeTicketModal() {
+      document.getElementById("modal-ticket").classList.add("hidden");
+      document.getElementById("modal-ticket").classList.remove("flex");
+    }
+
+    function sendLuxWhatsApp() {
+      if (!lastLuxSale) return;
+      const curr = luxBiz.settings.currency || '$';
+      let text = `*COMPROBANTE DE COMPRA EXCLUSIVO - ${lastLuxSale.bizName}*\n`;
+      text += `*Folio:* ${lastLuxSale.folio}\n`;
+      text += `*Fecha:* ${lastLuxSale.date} ${lastLuxSale.time}\n`;
+      lastLuxSale.items.forEach(i => {
+        text += `• ${i.qty}x ${i.product.name} = ${curr}${(i.qty * i.product.price).toFixed(2)}\n`;
+      });
+      text += `*TOTAL:* ${curr}${lastLuxSale.total.toFixed(2)}\n`;
+      text += `*Método:* ${lastLuxSale.method}\n\n`;
+      text += `Agradecemos su distinguida preferencia en ${lastLuxSale.bizName}.`;
+
+      window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`, '_blank');
+    }
+
+    function openLuxCorteModal() {
+      const curr = luxBiz.settings.currency || '$';
+      const tot = luxSalesHistory.reduce((acc, s) => acc + s.total, 0);
+      const card = luxSalesHistory.filter(s => s.method === 'Tarjeta').reduce((acc, s) => acc + s.total, 0);
+      const cash = luxSalesHistory.filter(s => s.method === 'Efectivo').reduce((acc, s) => acc + s.total, 0);
+
+      document.getElementById("lux-corte-total").innerText = `${curr}${tot.toFixed(2)}`;
+      document.getElementById("lux-corte-count").innerText = luxSalesHistory.length;
+      document.getElementById("lux-corte-card").innerText = `${curr}${card.toFixed(2)}`;
+      document.getElementById("lux-corte-cash").innerText = `${curr}${cash.toFixed(2)}`;
+
+      document.getElementById("modal-corte").classList.remove("hidden");
+      document.getElementById("modal-corte").classList.add("flex");
+      lucide.createIcons();
+    }
+
+    function closeLuxCorteModal() {
+      document.getElementById("modal-corte").classList.add("hidden");
+      document.getElementById("modal-corte").classList.remove("flex");
+    }
+
+    function downloadCurrentLuxPOS() {
+      const blob = new Blob([document.documentElement.outerHTML], { type: "text/html;charset=utf-8" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `Punto-De-Venta-Boutique-${luxBiz.id}.html`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }
+  </script>
+
+  <!-- BOTÓN FLOTANTE: PERSONALIZAR CON IA -->
+  <button onclick="openPosAIModal()" class="fixed bottom-5 left-5 z-40 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-extrabold text-xs px-4 py-3 rounded-2xl shadow-xl flex items-center space-x-2 transition active:scale-95 border-2 border-white/20">
+    <span class="text-base">✨</span>
+    <span>Pedir a la IA que cambie esto</span>
+  </button>
+
+  <!-- MODAL DE PERSONALIZACIÓN CON IA Y CONTROL DE SUSCRIPCIÓN -->
+  <div id="modal-pos-ai" class="fixed inset-0 z-50 bg-slate-950/75 backdrop-blur-sm hidden items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-md w-full p-6 text-slate-900 shadow-2xl border-2 border-blue-600 space-y-4">
+      <div class="flex justify-between items-center border-b pb-3">
+        <div class="flex items-center space-x-2">
+          <div class="w-8 h-8 rounded-xl bg-blue-100 text-blue-700 flex items-center justify-center text-sm font-black">🤖</div>
+          <div>
+            <h3 class="font-extrabold text-sm text-slate-900">Personalizar POS con IA</h3>
+            <p class="text-[11px] text-slate-500">Pídele a la IA cambios de nombre, precios o moneda</p>
+          </div>
+        </div>
+        <button onclick="closePosAIModal()" class="text-slate-400 hover:text-slate-600">✕</button>
+      </div>
+
+      <div class="space-y-2">
+        <label class="text-xs font-bold text-slate-700">¿Qué deseas que la IA cambie en este punto de venta?</label>
+        <textarea id="pos-ai-prompt" rows="3" placeholder="Ej. Cambia el nombre a 'Minisúper El Sol' y usa la moneda en USD con precios de mayoreo..." 
+          class="w-full p-3 border-2 border-slate-200 focus:border-blue-600 rounded-xl text-xs font-bold focus:outline-none"></textarea>
+      </div>
+
+      <div class="space-y-1.5">
+        <div class="text-[10px] font-bold text-slate-400 uppercase">Sugerencias rápidas:</div>
+        <div class="flex flex-wrap gap-1">
+          <button type="button" onclick="setPosAIPrompt('Cambia el nombre de la tienda por Mi Negocio Express')" class="px-2 py-1 bg-slate-100 hover:bg-slate-200 rounded-lg text-[10px] font-bold text-slate-700">Nombre</button>
+          <button type="button" onclick="setPosAIPrompt('Aplica un aumento del 10% a todos los precios')" class="px-2 py-1 bg-slate-100 hover:bg-slate-200 rounded-lg text-[10px] font-bold text-slate-700">+10% Precios</button>
+          <button type="button" onclick="setPosAIPrompt('Cambia la moneda a USD 
+</html>)" class="px-2 py-1 bg-slate-100 hover:bg-slate-200 rounded-lg text-[10px] font-bold text-slate-700">Moneda USD</button>
+        </div>
+      </div>
+
+      <div class="pt-2 border-t flex space-x-2">
+        <button type="button" onclick="executePosAIChange()" class="flex-1 py-3 bg-blue-600 hover:bg-blue-700 text-white font-extrabold text-xs rounded-xl shadow-md transition active:scale-95 flex items-center justify-center space-x-1.5">
+          <span>✨ Aplicar con IA</span>
+        </button>
+        <button type="button" onclick="closePosAIModal()" class="px-4 py-3 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs rounded-xl transition">
+          Cancelar
+        </button>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>

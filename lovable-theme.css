@@ -1,0 +1,109 @@
+/* DMD Punto de Venta — tema Lovable (capa de colores).
+   Se carga DESPUÉS de style.css y sobrescribe los colores del
+   sitio oficial (fondo blanco institucional, acentos azules) con
+   la paleta Lovable del creador de páginas: crema #f7f4ed, tinta
+   #1c1c1c, degradado naranja #ff8a4c / rosa #f0467f / azul #4f7dff,
+   botones negros tipo píldora, tarjetas blancas #fcfbf8.
+   Solo cubre la página principal del catálogo; las 4 demos TkPOS
+   NO cargan esta hoja y conservan sus estilos propios a propósito.
+   Las reglas llevan !important porque Tailwind (CDN) inyecta sus
+   utilidades después de esta hoja. */
+
+:root{
+  --lov-cream:#f7f4ed;
+  --lov-cream-2:#f1eee6;
+  --lov-ink:#1c1c1c;
+  --lov-ink-80:rgba(28,28,28,.8);
+  --lov-muted:#5f5f5d;
+  --lov-white:#fcfbf8;
+  --lov-orange:#ff8a4c;
+  --lov-pink:#f0467f;
+  --lov-blue:#4f7dff;
+  --lov-line:rgba(28,28,28,.09);
+}
+
+/* Fondo crema + Inter en toda la página */
+body.bg-white,
+body{
+  background-color:var(--lov-cream) !important;
+  color:var(--lov-ink) !important;
+  font-family:"Inter",ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif !important;
+}
+h1,h2,h3{letter-spacing:-.03em !important}
+
+/* Tarjetas y superficies blancas -> blanco cálido Lovable */
+.bg-white{background-color:var(--lov-white) !important}
+.bg-slate-50{background-color:var(--lov-cream-2) !important}
+.bg-slate-100{background-color:#eceae4 !important}
+.bg-slate-900{background-color:var(--lov-ink) !important}
+
+/* Textos: pizarra -> tinta y gris cálido */
+.text-slate-900,.text-slate-800{color:var(--lov-ink) !important}
+.text-slate-700,.text-slate-600{color:var(--lov-ink-80) !important}
+.text-slate-500,.text-slate-400{color:var(--lov-muted) !important}
+
+/* Acentos azules -> rosa Lovable (enlaces, etiquetas) y tinta */
+.text-blue-600{color:var(--lov-pink) !important}
+.text-blue-700,.text-blue-800{color:var(--lov-ink) !important}
+.hover\:text-blue-600:hover{color:var(--lov-pink) !important}
+.hover\:text-blue-700:hover{color:var(--lov-pink) !important}
+
+/* Botones principales azules -> negros tipo píldora */
+.bg-blue-600{background-color:var(--lov-ink) !important}
+.bg-blue-700{background-color:#000 !important}
+.hover\:bg-blue-600:hover{background-color:var(--lov-ink) !important}
+.hover\:bg-blue-700:hover{background-color:#000 !important}
+.border-blue-600,.border-blue-700{border-color:var(--lov-ink) !important}
+.hover\:border-blue-600:hover{border-color:var(--lov-ink) !important}
+button[class*="bg-blue-600"],
+a[class*="bg-blue-600"],
+button[class*="border-blue-600"],
+a[class*="border-blue-600"]{border-radius:9999px !important}
+
+/* Insignias y chips azul claro -> tinte rosa */
+.bg-blue-50{background-color:rgba(240,70,127,.10) !important}
+.bg-blue-50\/40{background-color:rgba(240,70,127,.08) !important}
+.border-blue-200{border-color:var(--lov-line) !important}
+.border-blue-300{border-color:rgba(240,70,127,.35) !important}
+.hover\:border-blue-400:hover{border-color:rgba(240,70,127,.5) !important}
+
+/* Bordes pizarra -> línea suave Lovable */
+.border-slate-200{border-color:var(--lov-line) !important}
+.border-slate-300{border-color:rgba(28,28,28,.14) !important}
+
+/* Foco y anillos azules -> rosa */
+.focus\:border-blue-600:focus{border-color:var(--lov-pink) !important}
+.focus\:ring-blue-500:focus{--tw-ring-color:var(--lov-pink) !important}
+.ring-blue-500{--tw-ring-color:var(--lov-pink) !important}
+.shadow-blue-600\/20{--tw-shadow-color:rgba(28,28,28,.15) !important}
+
+/* Franja con degradado azul del hero -> resplandor Lovable */
+[class*="from-blue-50"]{
+  background:linear-gradient(135deg,rgba(255,138,76,.16),rgba(240,70,127,.13) 50%,rgba(79,125,255,.16)) !important;
+  border-color:var(--lov-line) !important;
+}
+
+/* Cabecera del catálogo con resplandor degradado suave */
+.spoke-header{
+  background:
+    radial-gradient(40% 60% at 25% 15%,rgba(255,138,76,.20),transparent 70%),
+    radial-gradient(38% 60% at 55% 25%,rgba(240,70,127,.15),transparent 70%),
+    radial-gradient(40% 60% at 80% 15%,rgba(79,125,255,.18),transparent 70%) !important;
+}
+
+/* Barra superior oficial: crema translúcida con desenfoque, estilo Lovable */
+.navbar-global{
+  background-color:rgba(252,251,248,.85) !important;
+  -webkit-backdrop-filter:blur(14px) !important;
+  backdrop-filter:blur(14px) !important;
+  border-bottom-color:var(--lov-line) !important;
+}
+header.navbar{background-color:var(--lov-white) !important}
+.btn-portal-nav{
+  background-color:var(--lov-ink) !important;
+  color:var(--lov-white) !important;
+  border-radius:9999px !important;
+}
+
+/* Pie de página: crema para que no quede un bloque blanco */
+.footer{background-color:var(--lov-cream) !important}

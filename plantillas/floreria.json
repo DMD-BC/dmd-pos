@@ -1,0 +1,76 @@
+﻿{
+    "id":  "floreria",
+    "name":  "Florería y Detalles",
+    "description":  "Ramos florales, arreglos para ocasiones especiales, plantas y regalos.",
+    "icon":  "flower-2",
+    "settings":  {
+                     "currency":  "$",
+                     "phone":  "55 5566 7788",
+                     "address":  "Av. de las Rosas #14",
+                     "bizName":  "Florería Rosas \u0026 Jazmines",
+                     "footerMessage":  "Flores frescas de invernadero. Expresa tus sentimientos con flores.",
+                     "taxRate":  16
+                 },
+    "products":  [
+                     {
+                         "stock":  20,
+                         "cost":  110,
+                         "code":  "FLO01",
+                         "category":  "Ramos",
+                         "price":  280,
+                         "name":  "Ramo de 12 Rosas Rojas con Envoltura Fina",
+                         "minStock":  4,
+                         "id":  "1"
+                     },
+                     {
+                         "stock":  15,
+                         "cost":  160,
+                         "code":  "FLO02",
+                         "category":  "Arreglos",
+                         "price":  390,
+                         "name":  "Arreglo Floral Girasoles en Caja Sombrerera",
+                         "minStock":  3,
+                         "id":  "2"
+                     },
+                     {
+                         "stock":  8,
+                         "cost":  180,
+                         "code":  "FLO03",
+                         "category":  "Plantas",
+                         "price":  420,
+                         "name":  "Planta Orquídea en Maceta Cerámica",
+                         "minStock":  2,
+                         "id":  "3"
+                     },
+                     {
+                         "stock":  30,
+                         "cost":  25,
+                         "code":  "FLO04",
+                         "category":  "Detalles",
+                         "price":  65,
+                         "name":  "Planta Suculenta en Maceta Decorada",
+                         "minStock":  6,
+                         "id":  "4"
+                     },
+                     {
+                         "stock":  40,
+                         "cost":  25,
+                         "code":  "FLO05",
+                         "category":  "Globos",
+                         "price":  75,
+                         "name":  "Globo Metálico con Helio Feliz Día",
+                         "minStock":  8,
+                         "id":  "5"
+                     },
+                     {
+                         "stock":  18,
+                         "cost":  55,
+                         "code":  "FLO06",
+                         "category":  "Regalos",
+                         "price":  130,
+                         "name":  "Caja de Chocolates Finos 100g",
+                         "minStock":  4,
+                         "id":  "6"
+                     }
+                 ]
+}

@@ -1,0 +1,86 @@
+﻿{
+    "id":  "licoreria",
+    "name":  "Licorería y Vinos",
+    "description":  "Vinos y licores, cervezas artesanales, botanas y refrescos.",
+    "icon":  "wine",
+    "settings":  {
+                     "currency":  "$",
+                     "phone":  "55 6677 1122",
+                     "address":  "Av. Insurgentes Sur #1204",
+                     "bizName":  "Vinos \u0026 Licores La Barrica",
+                     "footerMessage":  "El consumo responsable es tu decisión. Venta solo a mayores de edad.",
+                     "taxRate":  16
+                 },
+    "products":  [
+                     {
+                         "stock":  24,
+                         "cost":  210,
+                         "code":  "LIC01",
+                         "category":  "Tequilas",
+                         "price":  340,
+                         "name":  "Tequila Reposado 100% Agave 750ml",
+                         "minStock":  6,
+                         "id":  "1"
+                     },
+                     {
+                         "stock":  18,
+                         "cost":  240,
+                         "code":  "LIC02",
+                         "category":  "Whiskies",
+                         "price":  395,
+                         "name":  "Whisky Escocés Etiqueta Roja 750ml",
+                         "minStock":  4,
+                         "id":  "2"
+                     },
+                     {
+                         "stock":  40,
+                         "cost":  75,
+                         "code":  "LIC03",
+                         "category":  "Cervezas",
+                         "price":  115,
+                         "name":  "Six Pack Cerveza Clara Lata 355ml",
+                         "minStock":  10,
+                         "id":  "3"
+                     },
+                     {
+                         "stock":  20,
+                         "cost":  130,
+                         "code":  "LIC04",
+                         "category":  "Vinos",
+                         "price":  220,
+                         "name":  "Vino Tinto Malbec Argentino 750ml",
+                         "minStock":  5,
+                         "id":  "4"
+                     },
+                     {
+                         "stock":  16,
+                         "cost":  140,
+                         "code":  "LIC05",
+                         "category":  "Licores",
+                         "price":  235,
+                         "name":  "Vodka Clásico Importado 750ml",
+                         "minStock":  4,
+                         "id":  "5"
+                     },
+                     {
+                         "stock":  30,
+                         "cost":  16,
+                         "code":  "LIC06",
+                         "category":  "Mezcladores",
+                         "price":  35,
+                         "name":  "Bolsa de Hielo Purificado en Cubos 5kg",
+                         "minStock":  6,
+                         "id":  "6"
+                     },
+                     {
+                         "stock":  35,
+                         "cost":  15,
+                         "code":  "LIC07",
+                         "category":  "Mezcladores",
+                         "price":  28,
+                         "name":  "Agua Mineral Peñafiel 2L",
+                         "minStock":  8,
+                         "id":  "7"
+                     }
+                 ]
+}

@@ -1,0 +1,86 @@
+﻿{
+    "id":  "papeleria",
+    "name":  "Papelería y Librería",
+    "description":  "Útiles escolares, copias, papelería de oficina y manualidades.",
+    "icon":  "book-open",
+    "settings":  {
+                     "currency":  "$",
+                     "phone":  "55 3322 1100",
+                     "address":  "Frente a Esc. Secundaria #5",
+                     "bizName":  "Papelería \u0026 Copias El Lápiz Mágico",
+                     "footerMessage":  "¡Éxito en tus estudios y proyectos escolares!",
+                     "taxRate":  16
+                 },
+    "products":  [
+                     {
+                         "stock":  70,
+                         "cost":  18,
+                         "code":  "PAP01",
+                         "category":  "Cuadernos",
+                         "price":  36,
+                         "name":  "Cuaderno Profesional Raya 100 Hojas",
+                         "minStock":  15,
+                         "id":  "1"
+                     },
+                     {
+                         "stock":  150,
+                         "cost":  4,
+                         "code":  "PAP02",
+                         "category":  "Escritura",
+                         "price":  10,
+                         "name":  "Bolígrafo Punto Medio Tinta Negra",
+                         "minStock":  30,
+                         "id":  "2"
+                     },
+                     {
+                         "stock":  25,
+                         "cost":  75,
+                         "code":  "PAP03",
+                         "category":  "Papel",
+                         "price":  125,
+                         "name":  "Paquete Hojas Blancas Carta 500h",
+                         "minStock":  5,
+                         "id":  "3"
+                     },
+                     {
+                         "stock":  40,
+                         "cost":  11,
+                         "code":  "PAP04",
+                         "category":  "Adhesivos",
+                         "price":  24,
+                         "name":  "Pegamento en Barra 21g Lavable",
+                         "minStock":  8,
+                         "id":  "4"
+                     },
+                     {
+                         "stock":  35,
+                         "cost":  32,
+                         "code":  "PAP05",
+                         "category":  "Arte",
+                         "price":  65,
+                         "name":  "Caja Colores de Madera 12 Piezas",
+                         "minStock":  6,
+                         "id":  "5"
+                     },
+                     {
+                         "stock":  30,
+                         "cost":  18,
+                         "code":  "PAP06",
+                         "category":  "Geometría",
+                         "price":  42,
+                         "name":  "Juego de Geometría Escolar 5 Piezas",
+                         "minStock":  6,
+                         "id":  "6"
+                     },
+                     {
+                         "stock":  9999,
+                         "cost":  0.3,
+                         "code":  "PAP07",
+                         "category":  "Servicios",
+                         "price":  2,
+                         "name":  "Servicio Impresión/Copia B/N Carta",
+                         "minStock":  100,
+                         "id":  "7"
+                     }
+                 ]
+}

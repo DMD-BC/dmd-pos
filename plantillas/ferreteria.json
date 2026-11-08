@@ -1,0 +1,86 @@
+﻿{
+    "id":  "ferreteria",
+    "name":  "Ferretería y Tlapalería",
+    "description":  "Materiales eléctricos, plomería, tornillería y herramientas.",
+    "icon":  "wrench",
+    "settings":  {
+                     "currency":  "$",
+                     "phone":  "55 2211 4455",
+                     "address":  "Calzada Industrial #12",
+                     "bizName":  "Ferretería El Tornillo Fuerte",
+                     "footerMessage":  "Todo para la construcción y el hogar. Garantía de fábrica.",
+                     "taxRate":  16
+                 },
+    "products":  [
+                     {
+                         "stock":  18,
+                         "cost":  75,
+                         "code":  "FER01",
+                         "category":  "Herramientas",
+                         "price":  145,
+                         "name":  "Martillo de Uña Curva 16oz Mango Fibra",
+                         "minStock":  4,
+                         "id":  "1"
+                     },
+                     {
+                         "stock":  60,
+                         "cost":  9,
+                         "code":  "FER02",
+                         "category":  "Electricidad",
+                         "price":  22,
+                         "name":  "Cinta de Aislar PVC Negra 19mm x 18m",
+                         "minStock":  15,
+                         "id":  "2"
+                     },
+                     {
+                         "stock":  50,
+                         "cost":  14,
+                         "code":  "FER03",
+                         "category":  "Iluminación",
+                         "price":  32,
+                         "name":  "Foco LED 10W Luz Blanca E27",
+                         "minStock":  10,
+                         "id":  "3"
+                     },
+                     {
+                         "stock":  12,
+                         "cost":  85,
+                         "code":  "FER04",
+                         "category":  "Herramientas",
+                         "price":  165,
+                         "name":  "Llave Ajustable Perico 8 Pulgadas",
+                         "minStock":  3,
+                         "id":  "4"
+                     },
+                     {
+                         "stock":  80,
+                         "cost":  6,
+                         "code":  "FER05",
+                         "category":  "Plomería",
+                         "price":  16,
+                         "name":  "Cinta Teflón para Plomería 3/4 x 10m",
+                         "minStock":  20,
+                         "id":  "5"
+                     },
+                     {
+                         "stock":  30,
+                         "cost":  15,
+                         "code":  "FER06",
+                         "category":  "Accesorios",
+                         "price":  38,
+                         "name":  "Broca para Concreto 1/4 Pulgada",
+                         "minStock":  6,
+                         "id":  "6"
+                     },
+                     {
+                         "stock":  10,
+                         "cost":  160,
+                         "code":  "FER07",
+                         "category":  "Pinturas",
+                         "price":  295,
+                         "name":  "Pintura Vinílica Blanca 4L Galón",
+                         "minStock":  2,
+                         "id":  "7"
+                     }
+                 ]
+}

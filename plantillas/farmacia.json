@@ -1,0 +1,86 @@
+﻿{
+    "id":  "farmacia",
+    "name":  "Farmacia y Botica",
+    "description":  "Farmacias de genéricos, patentes, boticas y material de curación.",
+    "icon":  "pill",
+    "settings":  {
+                     "currency":  "$",
+                     "phone":  "55 6677 8899",
+                     "address":  "Calle Hidalgo #310",
+                     "bizName":  "Farmacia San Rafael",
+                     "footerMessage":  "Cuidando tu salud los 365 días del año. Consulte a su médico.",
+                     "taxRate":  0
+                 },
+    "products":  [
+                     {
+                         "stock":  80,
+                         "cost":  8.5,
+                         "code":  "FAR01",
+                         "category":  "Medicamentos",
+                         "price":  25,
+                         "name":  "Paracetamol 500mg Caja 20 Tabletas",
+                         "minStock":  15,
+                         "id":  "1"
+                     },
+                     {
+                         "stock":  60,
+                         "cost":  12,
+                         "code":  "FAR02",
+                         "category":  "Medicamentos",
+                         "price":  38,
+                         "name":  "Ibuprofeno 400mg Caja 10 Cápsulas",
+                         "minStock":  12,
+                         "id":  "2"
+                     },
+                     {
+                         "stock":  50,
+                         "cost":  14,
+                         "code":  "FAR03",
+                         "category":  "Medicamentos",
+                         "price":  42,
+                         "name":  "Omeprazol 20mg Caja 14 Cápsulas",
+                         "minStock":  10,
+                         "id":  "3"
+                     },
+                     {
+                         "stock":  40,
+                         "cost":  16,
+                         "code":  "FAR04",
+                         "category":  "Curación",
+                         "price":  34,
+                         "name":  "Alcohol Etílico 70° Frasco 500ml",
+                         "minStock":  8,
+                         "id":  "4"
+                     },
+                     {
+                         "stock":  50,
+                         "cost":  11,
+                         "code":  "FAR05",
+                         "category":  "Curación",
+                         "price":  26,
+                         "name":  "Gasas Estériles 10x10cm Paquete 10pz",
+                         "minStock":  10,
+                         "id":  "5"
+                     },
+                     {
+                         "stock":  45,
+                         "cost":  15,
+                         "code":  "FAR06",
+                         "category":  "Bebidas Salud",
+                         "price":  32,
+                         "name":  "Suero Rehidratante Oral 500ml Fresa",
+                         "minStock":  10,
+                         "id":  "6"
+                     },
+                     {
+                         "stock":  25,
+                         "cost":  55,
+                         "code":  "FAR07",
+                         "category":  "Vitaminas",
+                         "price":  115,
+                         "name":  "Vitamina C + Zinc 30 Tabletas Efervescentes",
+                         "minStock":  5,
+                         "id":  "7"
+                     }
+                 ]
+}

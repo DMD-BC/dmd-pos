@@ -1,0 +1,86 @@
+﻿{
+    "id":  "gimnasio",
+    "name":  "Gimnasio y Suplementos",
+    "description":  "Membresías de gimnasio, proteínas, creatinas y ropa deportiva.",
+    "icon":  "dumbbell",
+    "settings":  {
+                     "currency":  "$",
+                     "phone":  "55 8899 3344",
+                     "address":  "Av. de los Deportes #400",
+                     "bizName":  "Iron Fitness Club \u0026 Suplementos",
+                     "footerMessage":  "No te rindas. Cada gota de sudor cuenta. ¡Buen entrenamiento!",
+                     "taxRate":  16
+                 },
+    "products":  [
+                     {
+                         "stock":  15,
+                         "cost":  680,
+                         "code":  "FIT01",
+                         "category":  "Proteínas",
+                         "price":  1050,
+                         "name":  "Proteína Whey Isolate Bote 2kg Vainilla",
+                         "minStock":  3,
+                         "id":  "1"
+                     },
+                     {
+                         "stock":  25,
+                         "cost":  240,
+                         "code":  "FIT02",
+                         "category":  "Creatina",
+                         "price":  420,
+                         "name":  "Creatina Monohidratada Micronizada 300g",
+                         "minStock":  5,
+                         "id":  "2"
+                     },
+                     {
+                         "stock":  18,
+                         "cost":  290,
+                         "code":  "FIT03",
+                         "category":  "Pre-Workout",
+                         "price":  490,
+                         "name":  "Pre-Entreno Explosivo 30 Servicios Ponche",
+                         "minStock":  4,
+                         "id":  "3"
+                     },
+                     {
+                         "stock":  30,
+                         "cost":  45,
+                         "code":  "FIT04",
+                         "category":  "Accesorios",
+                         "price":  120,
+                         "name":  "Termo Vaso Mezclador Shaker 700ml",
+                         "minStock":  6,
+                         "id":  "4"
+                     },
+                     {
+                         "stock":  40,
+                         "cost":  14,
+                         "code":  "FIT05",
+                         "category":  "Bebidas",
+                         "price":  28,
+                         "name":  "Bebida Isotónica Rehidratante 600ml",
+                         "minStock":  10,
+                         "id":  "5"
+                     },
+                     {
+                         "stock":  999,
+                         "cost":  0,
+                         "code":  "FIT06",
+                         "category":  "Membresías",
+                         "price":  70,
+                         "name":  "Pase Diario Visita Libre Gimnasio",
+                         "minStock":  50,
+                         "id":  "6"
+                     },
+                     {
+                         "stock":  999,
+                         "cost":  0,
+                         "code":  "FIT07",
+                         "category":  "Membresías",
+                         "price":  550,
+                         "name":  "Membresía Mensual Acceso Total",
+                         "minStock":  50,
+                         "id":  "7"
+                     }
+                 ]
+}

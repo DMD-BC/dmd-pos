@@ -1,0 +1,76 @@
+﻿{
+    "id":  "optica",
+    "name":  "Óptica y Lentes",
+    "description":  "Armazones oftálmicos, lentes de sol, micas y lentes de contacto.",
+    "icon":  "glasses",
+    "settings":  {
+                     "currency":  "$",
+                     "phone":  "55 9911 2233",
+                     "address":  "Av. Universidad #800",
+                     "bizName":  "Óptica Visión Clara",
+                     "footerMessage":  "Salud visual para toda la familia. 1 año de garantía en armazón.",
+                     "taxRate":  16
+                 },
+    "products":  [
+                     {
+                         "stock":  20,
+                         "cost":  320,
+                         "code":  "OPT01",
+                         "category":  "Armazones",
+                         "price":  850,
+                         "name":  "Armazón Oftálmico Unisex Titanio Ligero",
+                         "minStock":  4,
+                         "id":  "1"
+                     },
+                     {
+                         "stock":  18,
+                         "cost":  220,
+                         "code":  "OPT02",
+                         "category":  "Solares",
+                         "price":  590,
+                         "name":  "Lentes de Sol Polarizados Protección UV400",
+                         "minStock":  4,
+                         "id":  "2"
+                     },
+                     {
+                         "stock":  50,
+                         "cost":  180,
+                         "code":  "OPT03",
+                         "category":  "Micas",
+                         "price":  480,
+                         "name":  "Micas Graduadas Antirreflejante Blue Block",
+                         "minStock":  10,
+                         "id":  "3"
+                     },
+                     {
+                         "stock":  25,
+                         "cost":  55,
+                         "code":  "OPT04",
+                         "category":  "Contactología",
+                         "price":  135,
+                         "name":  "Solución Líquida Lentes de Contacto 360ml",
+                         "minStock":  5,
+                         "id":  "4"
+                     },
+                     {
+                         "stock":  60,
+                         "cost":  8,
+                         "code":  "OPT05",
+                         "category":  "Accesorios",
+                         "price":  25,
+                         "name":  "Paño Limpiador Microfibra Antiestático",
+                         "minStock":  15,
+                         "id":  "5"
+                     },
+                     {
+                         "stock":  999,
+                         "cost":  0,
+                         "code":  "OPT06",
+                         "category":  "Servicio",
+                         "price":  120,
+                         "name":  "Examen Visual Computarizado Completo",
+                         "minStock":  50,
+                         "id":  "6"
+                     }
+                 ]
+}

@@ -1,0 +1,76 @@
+﻿{
+    "id":  "electronica",
+    "name":  "Electrónica y Celulares",
+    "description":  "Accesorios móviles, cables, cargadores, audio y reparaciones.",
+    "icon":  "smartphone",
+    "settings":  {
+                     "currency":  "$",
+                     "phone":  "55 9900 1122",
+                     "address":  "Plaza de la Tecnología Local 108",
+                     "bizName":  "TechZone Reparaciones \u0026 Celulares",
+                     "footerMessage":  "Garantía de 30 días en accesorios y reparaciones.",
+                     "taxRate":  16
+                 },
+    "products":  [
+                     {
+                         "stock":  40,
+                         "cost":  30,
+                         "code":  "CEL01",
+                         "category":  "Cables",
+                         "price":  95,
+                         "name":  "Cable USB Tipo C Carga Rápida 2m",
+                         "minStock":  8,
+                         "id":  "1"
+                     },
+                     {
+                         "stock":  25,
+                         "cost":  70,
+                         "code":  "CEL02",
+                         "category":  "Cargadores",
+                         "price":  199,
+                         "name":  "Cubo Cargador 20W USB-C Rápido",
+                         "minStock":  5,
+                         "id":  "2"
+                     },
+                     {
+                         "stock":  60,
+                         "cost":  15,
+                         "code":  "CEL03",
+                         "category":  "Protección",
+                         "price":  80,
+                         "name":  "Mica de Cristal Templado 9D Universal",
+                         "minStock":  12,
+                         "id":  "3"
+                     },
+                     {
+                         "stock":  20,
+                         "cost":  120,
+                         "code":  "CEL04",
+                         "category":  "Audio",
+                         "price":  320,
+                         "name":  "Audífonos Inalámbricos Bluetooth TWS",
+                         "minStock":  4,
+                         "id":  "4"
+                     },
+                     {
+                         "stock":  30,
+                         "cost":  45,
+                         "code":  "CEL05",
+                         "category":  "Fundas",
+                         "price":  135,
+                         "name":  "Funda Uso Rudo Antigolpes",
+                         "minStock":  6,
+                         "id":  "5"
+                     },
+                     {
+                         "stock":  999,
+                         "cost":  40,
+                         "code":  "CEL06",
+                         "category":  "Servicio",
+                         "price":  250,
+                         "name":  "Servicio Mano de Obra Cambio de Batería",
+                         "minStock":  20,
+                         "id":  "6"
+                     }
+                 ]
+}

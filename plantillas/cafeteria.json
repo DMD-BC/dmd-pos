@@ -1,0 +1,86 @@
+﻿{
+    "id":  "cafeteria",
+    "name":  "Cafetería y Repostería",
+    "description":  "Coffee shops, barras de especialidad, panaderías y pastelerías.",
+    "icon":  "coffee",
+    "settings":  {
+                     "currency":  "$",
+                     "phone":  "55 4433 2211",
+                     "address":  "Paseo de la Reforma #88",
+                     "bizName":  "Aroma \u0026 Grano Café",
+                     "footerMessage":  "Café 100% orgánico de altura. ¡Que tengas un gran día!",
+                     "taxRate":  16
+                 },
+    "products":  [
+                     {
+                         "stock":  300,
+                         "cost":  8,
+                         "code":  "CAF01",
+                         "category":  "Café Caliente",
+                         "price":  42,
+                         "name":  "Café Americano 12oz (Grano Chiapas)",
+                         "minStock":  30,
+                         "id":  "1"
+                     },
+                     {
+                         "stock":  200,
+                         "cost":  14,
+                         "code":  "CAF02",
+                         "category":  "Café Caliente",
+                         "price":  65,
+                         "name":  "Cappuccino Vainilla 16oz",
+                         "minStock":  20,
+                         "id":  "2"
+                     },
+                     {
+                         "stock":  150,
+                         "cost":  16,
+                         "code":  "CAF03",
+                         "category":  "Bebidas Frías",
+                         "price":  78,
+                         "name":  "Iced Caramel Macchiato 20oz",
+                         "minStock":  15,
+                         "id":  "3"
+                     },
+                     {
+                         "stock":  120,
+                         "cost":  18,
+                         "code":  "CAF04",
+                         "category":  "Frappés",
+                         "price":  85,
+                         "name":  "Frappé Mocha con Crema Batida",
+                         "minStock":  10,
+                         "id":  "4"
+                     },
+                     {
+                         "stock":  30,
+                         "cost":  15,
+                         "code":  "CAF05",
+                         "category":  "Panadería",
+                         "price":  48,
+                         "name":  "Croissant Mantequilla Almendrado",
+                         "minStock":  5,
+                         "id":  "5"
+                     },
+                     {
+                         "stock":  18,
+                         "cost":  22,
+                         "code":  "CAF06",
+                         "category":  "Postres",
+                         "price":  75,
+                         "name":  "Rebanada Cheesecake de Frutos Rojos",
+                         "minStock":  4,
+                         "id":  "6"
+                     },
+                     {
+                         "stock":  20,
+                         "cost":  28,
+                         "code":  "CAF07",
+                         "category":  "Desayunos",
+                         "price":  89,
+                         "name":  "Bagel de Pavo y Queso Crema",
+                         "minStock":  5,
+                         "id":  "7"
+                     }
+                 ]
+}

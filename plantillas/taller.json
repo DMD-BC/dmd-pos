@@ -1,0 +1,86 @@
+﻿{
+    "id":  "taller",
+    "name":  "Taller Mecánico y Refacciones",
+    "description":  "Refacciones automotrices, aceites, afinaciones y mano de obra.",
+    "icon":  "car",
+    "settings":  {
+                     "currency":  "$",
+                     "phone":  "55 1234 9988",
+                     "address":  "Carretera Nacional Km 5",
+                     "bizName":  "Taller Mecánico \u0026 Refacciones Automotrices Express",
+                     "footerMessage":  "Garantía en mano de obra y refacciones. Su seguridad es primero.",
+                     "taxRate":  16
+                 },
+    "products":  [
+                     {
+                         "stock":  20,
+                         "cost":  380,
+                         "code":  "MEC01",
+                         "category":  "Aceites",
+                         "price":  620,
+                         "name":  "Aceite Motor Sintético 5W-30 Garrafa 5L",
+                         "minStock":  4,
+                         "id":  "1"
+                     },
+                     {
+                         "stock":  30,
+                         "cost":  45,
+                         "code":  "MEC02",
+                         "category":  "Filtros",
+                         "price":  110,
+                         "name":  "Filtro de Aceite Automotriz Universal",
+                         "minStock":  6,
+                         "id":  "2"
+                     },
+                     {
+                         "stock":  12,
+                         "cost":  260,
+                         "code":  "MEC03",
+                         "category":  "Frenos",
+                         "price":  480,
+                         "name":  "Juego Balatas Cerámicas Delanteras",
+                         "minStock":  3,
+                         "id":  "3"
+                     },
+                     {
+                         "stock":  24,
+                         "cost":  95,
+                         "code":  "MEC04",
+                         "category":  "Fluidos",
+                         "price":  185,
+                         "name":  "Anticongelante Listo para Usar 50/50 1 Galón",
+                         "minStock":  5,
+                         "id":  "4"
+                     },
+                     {
+                         "stock":  20,
+                         "cost":  35,
+                         "code":  "MEC05",
+                         "category":  "Fluidos",
+                         "price":  85,
+                         "name":  "Líquido para Frenos DOT 4 350ml",
+                         "minStock":  5,
+                         "id":  "5"
+                     },
+                     {
+                         "stock":  999,
+                         "cost":  30,
+                         "code":  "MEC06",
+                         "category":  "Servicio",
+                         "price":  150,
+                         "name":  "Servicio de Cambio de Aceite y Filtro (Mano de Obra)",
+                         "minStock":  20,
+                         "id":  "6"
+                     },
+                     {
+                         "stock":  999,
+                         "cost":  100,
+                         "code":  "MEC07",
+                         "category":  "Servicio",
+                         "price":  650,
+                         "name":  "Afinación Mayor 4 Cilindros (Mano de Obra)",
+                         "minStock":  10,
+                         "id":  "7"
+                     }
+                 ]
+}

@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TkPOS - Vintage Retro Terminal (Paper Edition)</title>
+  <script src="https://cdn.tailwindcss.com">
+    function openPosAIModal() {
+      document.getElementById("modal-pos-ai").classList.remove("hidden");
+      document.getElementById("modal-pos-ai").classList.add("flex");
+    }
+
+    function closePosAIModal() {
+      document.getElementById("modal-pos-ai").classList.add("hidden");
+      document.getElementById("modal-pos-ai").classList.remove("flex");
+    }
+
+    function setPosAIPrompt(txt) {
+      document.getElementById("pos-ai-prompt").value = txt;
+    }
+
+    function executePosAIChange() {
+      const prompt = document.getElementById("pos-ai-prompt").value.trim();
+      if (!prompt) return;
+
+      const freeStyles = ["modern-pro", "touch-kiosk", "fast-cashier"];
+      const currentStyle = (typeof currentStyleId !== "undefined" ? currentStyleId : (typeof currentFastStyleId !== "undefined" ? currentFastStyleId : (typeof currentLuxStyleId !== "undefined" ? currentLuxStyleId : (typeof currentRetroStyleId !== "undefined" ? currentRetroStyleId : ""))));
+      const isFree = freeStyles.includes(currentStyle);
+      const isPremiumUser = (localStorage.getItem("dmd_user_tier") === "PREMIUM" || localStorage.getItem("pos_license_tier") === "PREMIUM");
+
+      // 🔒 PAYWALL: Si es estilo premium y usuario es FREE, bloquear cualquier cambio
+      if (!isFree && !isPremiumUser) {
+        alert("🔒 ACCESO RESTRINGIDO: Esta plantilla de punto de venta es de categoría Premium. Para que la Inteligencia Artificial aplique cambios personalizados, activa tu Membresía Premium DMD por solo $79 MXN/mes.");
+        return;
+      }
+
+      // Aplicar cambios según instrucción
+      const lower = prompt.toLowerCase();
+      
+      // 1. Cambio de nombre
+      const nameMatch = prompt.match(/(?:nombre|tienda|negocio|llamada)s+(?:a|por)?s*["'“”]?([A-Za-zÁÉÍÓÚáéíóúñ0-9s&]{3,30})["'“”]?/i);
+      if (nameMatch) {
+        const newName = nameMatch[1].trim();
+        if (typeof currentBusiness !== "undefined") {
+          currentBusiness.settings.bizName = newName;
+          const el = document.getElementById("biz-title");
+          if (el) el.innerText = newName;
+        } else if (typeof curBiz !== "undefined") {
+          curBiz.settings.bizName = newName;
+          const el = document.getElementById("fast-biz-title");
+          if (el) el.innerText = newName.toUpperCase();
+        } else if (typeof luxBiz !== "undefined") {
+          luxBiz.settings.bizName = newName;
+          const el = document.getElementById("lux-title");
+          if (el) el.innerText = newName;
+        } else if (typeof retroBiz !== "undefined") {
+          retroBiz.settings.bizName = newName;
+          const el = document.getElementById("retro-biz-title");
+          if (el) el.innerText = newName.toUpperCase();
+        }
+      }
+
+      // 2. Cambio de moneda
+      if (lower.includes("usd") || lower.includes("dólar") || lower.includes("dolares")) {
+        if (typeof currentBusiness !== "undefined") currentBusiness.settings.currency = "USD $";
+        if (typeof curBiz !== "undefined") curBiz.settings.currency = "USD $";
+        if (typeof luxBiz !== "undefined") luxBiz.settings.currency = "USD $";
+        if (typeof retroBiz !== "undefined") retroBiz.settings.currency = "USD $";
+      }
+
+      // 3. Aumento o reducción de precios
+      if (lower.includes("10%")) {
+        const factor = lower.includes("descuento") || lower.includes("reduc") ? 0.9 : 1.1;
+        const biz = (typeof currentBusiness !== "undefined" ? currentBusiness : (typeof curBiz !== "undefined" ? curBiz : (typeof luxBiz !== "undefined" ? luxBiz : retroBiz)));
+        if (biz && biz.products) {
+          biz.products.forEach(p => p.price = parseFloat((p.price * factor).toFixed(2)));
+        }
+      }
+
+      alert("✨ ¡La IA ha aplicado tus cambios en este punto de venta!");
+      closePosAIModal();
+
+      if (typeof renderProducts === "function") renderProducts();
+      if (typeof renderFastTable === "function") renderFastTable();
+      if (typeof renderLuxGrid === "function") renderLuxGrid();
+      if (typeof renderRetroProds === "function") renderRetroProds();
+    }
+
+  </script>
+  <script src="plantillas/templates.js"></script>
+  <style>
+    body { font-family: 'Courier New', Courier, monospace; }
+    @media print {
+      body * { visibility: hidden !important; }
+      #print-area, #print-area * { visibility: visible !important; }
+      #print-area { position: absolute; left: 0; top: 0; width: 80mm; margin: 0 auto; padding: 10px; font-family: 'Courier New', monospace; font-size: 11px; }
+    }
+  </style>
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+  <link rel="apple-touch-icon-precomposed" href="apple-touch-icon.png">
+    <meta property="og:type" content="website">
+  <meta property="og:site_name" content="DMD | Digital Mijma Dreams">
+  <meta property="og:title" content="TkPOS - Vintage Retro Terminal (Paper Edition)">
+  <meta property="og:description" content="Punto de venta TkPOS estilo vintage retro.">
+  <meta property="og:image" content="https://www.dmdmx.dev/assets/social/og-dmd.jpg">
+  <meta property="og:image:secure_url" content="https://www.dmdmx.dev/assets/social/og-dmd.jpg">
+  <meta property="og:image:type" content="image/jpeg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="TkPOS - Vintage Retro Terminal (Paper Edition) · DMD Digital Mijma Dreams">
+  <meta property="og:url" content="https://dmd-pos.vercel.app/pos-retro-vintage.html">
+  <meta property="og:locale" content="es_MX">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="TkPOS - Vintage Retro Terminal (Paper Edition)">
+  <meta name="twitter:description" content="Punto de venta TkPOS estilo vintage retro.">
+  <meta name="twitter:image" content="https://www.dmdmx.dev/assets/social/og-dmd.jpg">
+  <meta name="twitter:image:alt" content="TkPOS - Vintage Retro Terminal (Paper Edition) · DMD Digital Mijma Dreams">
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+
+  <!-- Twitter / X Card Meta Tags -->
+  
+  
+  
+  
+</head>
+<body class="bg-white text-slate-800 font-mono h-screen flex flex-col p-3 sm:p-4 antialiased select-none overflow-hidden">
+
+  <!-- RETRO HEADER CON FONDO BLANCO Y CONTORNO AZUL REY -->
+  <header class="border-2 border-blue-600 rounded-2xl p-3 mb-3 flex items-center justify-between text-xs flex-shrink-0 bg-white shadow-xs">
+    <div class="flex items-center space-x-3 sm:space-x-4">
+      <a href="punto-de-venta.html" class="border-2 border-blue-600 bg-white text-blue-700 hover:bg-blue-50 px-3 py-1 font-bold rounded-xl transition shadow-xs">
+        &lt; [PLANTILLAS]
+      </a>
+      <span class="font-black text-xs sm:text-sm tracking-widest text-slate-900 truncate">
+        &gt;&gt;&gt; <span id="retro-biz-title">SISTEMA TP-POS 1995</span> &lt;&lt;&lt;
+      </span>
+    </div>
+    <div class="flex items-center space-x-2 sm:space-x-3">
+      <!-- Botón Corte -->
+      <button onclick="openRetroCorte()" class="border-2 border-emerald-600 bg-white text-emerald-700 hover:bg-emerald-50 px-2.5 py-1 font-bold rounded-xl text-xs transition shadow-xs">
+        [ARQUEO/CORTE]
+      </button>
+
+      <button onclick="downloadCurrentRetroPOS()" class="border-2 border-blue-600 bg-white text-blue-700 hover:bg-blue-50 px-2.5 py-1 font-bold rounded-xl text-xs hidden md:flex items-center space-x-1 transition shadow-xs">
+        <span>[DESCARGAR POS]</span>
+      </button>
+
+      <div class="flex items-center space-x-1">
+        <span class="font-bold text-slate-600 hidden sm:inline">GIRO:</span>
+        <select id="retro-select-biz" onchange="loadRetroBiz(this.value)" class="bg-white text-slate-800 border-2 border-blue-600 px-2 py-1 text-xs font-bold rounded-xl focus:outline-none">
+          <!-- opciones -->
+        </select>
+      </div>
+
+      <select id="select-style" onchange="changeRetroStyleTheme(this.value)" class="bg-white text-slate-800 border-2 border-blue-600 px-2 py-1 text-xs font-bold rounded-xl focus:outline-none shadow-xs" title="Paleta de Colores y Estilo">
+        <!-- opciones estilos -->
+      </select>
+      <span id="retro-clock" class="bg-blue-50 border-2 border-blue-600 text-blue-700 px-2.5 py-1 font-black rounded-xl hidden sm:inline">00:00:00</span>
+    </div>
+  </header>
+
+  <!-- WORKSPACE -->
+  <div class="flex-1 flex gap-3 overflow-hidden">
+    <!-- PRODUCT LIST (LEFT) -->
+    <div class="flex-1 border-2 border-slate-200 rounded-2xl p-3 flex flex-col overflow-hidden bg-white shadow-xs">
+      
+      <!-- Buscador Vintage -->
+      <div class="flex gap-2 mb-2 pb-2 border-b-2 border-slate-100">
+        <input type="text" id="retro-search" oninput="filterRetro(this.value)" placeholder="[BUSCAR ARTICULO O CODIGO]..." 
+          class="flex-1 px-3 py-1.5 border-2 border-blue-600 rounded-xl text-xs font-bold focus:outline-none bg-slate-50 focus:bg-white uppercase">
+        <span id="retro-cat-count" class="font-bold text-slate-400 self-center text-xs whitespace-nowrap">0 ITEMS</span>
+      </div>
+
+      <div class="flex-1 overflow-y-auto">
+        <table class="w-full text-left text-xs">
+          <thead class="sticky top-0 bg-white">
+            <tr class="border-b-2 border-slate-200 text-slate-600 uppercase font-black">
+              <th class="py-1.5">CODIGO</th>
+              <th class="py-1.5">DESCRIPCION</th>
+              <th class="py-1.5 hidden sm:table-cell">GRUPO</th>
+              <th class="py-1.5 text-right">P.VENTA</th>
+              <th class="py-1.5 text-center">ACCION</th>
+            </tr>
+          </thead>
+          <tbody id="retro-prod-tbody" class="divide-y divide-slate-100 font-mono">
+            <!-- items -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- TICKET (RIGHT) -->
+    <div class="w-80 sm:w-96 lg:w-[420px] border-2 border-blue-600 rounded-2xl p-3 sm:p-4 flex flex-col justify-between bg-slate-50 shadow-xs flex-shrink-0">
+      <div class="flex-1 flex flex-col overflow-hidden">
+        <div class="border-b-2 border-slate-200 pb-2 mb-2 text-xs font-black text-center text-slate-800 leading-tight">
+          ================================<br>
+          COMPROBANTE FISCAL SIMULADO<br>
+          <span class="text-[10px] text-blue-700" id="retro-ticket-folio">FOLIO: TK-RETRO-#1001</span><br>
+          ================================
+        </div>
+
+        <div id="retro-ticket-tbody" class="flex-1 overflow-y-auto text-xs space-y-1 bg-white p-2.5 border border-slate-200 rounded-xl">
+          <!-- rows -->
+        </div>
+      </div>
+
+      <!-- TOTAL & TECLAS CON CONTORNO AZUL REY -->
+      <div class="border-t-2 border-slate-200 pt-3 mt-2 space-y-2.5 bg-white p-3 rounded-xl border border-slate-200">
+        
+        <!-- Método de Pago -->
+        <div class="flex justify-between items-center text-[11px]">
+          <span class="font-bold text-slate-500">PAGO:</span>
+          <div class="flex space-x-1">
+            <button onclick="setRetroMethod('EFECTIVO')" id="r-m-cash" class="px-2 py-0.5 rounded border border-blue-600 bg-blue-600 text-white font-bold text-[10px]">[EFECTIVO]</button>
+            <button onclick="setRetroMethod('TARJETA')" id="r-m-card" class="px-2 py-0.5 rounded border border-slate-300 text-slate-700 font-bold text-[10px]">[TARJETA]</button>
+            <button onclick="setRetroMethod('SPEI/QR')" id="r-m-spei" class="px-2 py-0.5 rounded border border-slate-300 text-slate-700 font-bold text-[10px]">[SPEI/QR]</button>
+          </div>
+        </div>
+
+        <div class="flex justify-between text-base font-black text-slate-900 pt-1 border-t border-slate-100">
+          <span>TOTAL FACTURA:</span>
+          <span id="retro-total" class="text-blue-600 text-xl font-mono">$0.00</span>
+        </div>
+
+        <div class="grid grid-cols-2 gap-2 pt-1">
+          <button onclick="clearRetroCart()" class="border-2 border-rose-300 bg-white hover:bg-rose-50 text-rose-600 py-2.5 text-xs font-bold rounded-xl transition shadow-xs">
+            [ESC] CANCELAR
+          </button>
+          <button onclick="finishRetroSale()" class="border-2 border-blue-600 bg-white hover:bg-blue-600 text-blue-700 hover:text-white py-2.5 text-xs font-black rounded-xl transition shadow-xs active:scale-98">
+            [F2] COBRAR
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL TICKET IMPRIMIBLE VINTAGE -->
+  <div id="modal-retro-ticket" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden items-center justify-center p-4">
+    <div class="bg-white border-2 border-slate-800 rounded-2xl max-w-sm w-full p-4 space-y-3 max-h-[90vh] flex flex-col font-mono text-xs">
+      <div class="text-center pb-2 border-b-2 border-dashed border-slate-400">
+        <div class="font-black" id="retro-t-biz">TIENDA VINTAGE</div>
+        <div class="text-[10px]">TICKET DE COMPRA V1.0</div>
+      </div>
+
+      <div class="flex-1 overflow-y-auto space-y-1 bg-slate-50 p-3 border rounded-xl" id="retro-print-box">
+        <!-- Ticket dinámico -->
+      </div>
+
+      <div class="space-y-1.5 pt-1">
+        <button onclick="window.print()" class="w-full py-2 bg-slate-900 text-white font-bold rounded-xl text-xs">[IMPRIMIR TICKET]</button>
+        <button onclick="sendRetroWhatsApp()" class="w-full py-2 bg-emerald-600 text-white font-bold rounded-xl text-xs">[ENVIAR POR WHATSAPP]</button>
+        <button onclick="closeRetroTicket()" class="w-full py-1.5 border border-slate-300 rounded-xl text-xs">[LISTO / NUEVA VENTA]</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL CORTE ARQUEO -->
+  <div id="modal-retro-corte" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden items-center justify-center p-4">
+    <div class="bg-white border-2 border-emerald-600 rounded-2xl max-w-sm w-full p-4 space-y-3 font-mono text-xs">
+      <div class="font-black text-center border-b pb-2">*** ARQUEO DE TURNO X ***</div>
+      <div class="space-y-1.5">
+        <div class="flex justify-between"><span>TOTAL VENTAS:</span><strong id="r-corte-tot" class="text-blue-700">$0.00</strong></div>
+        <div class="flex justify-between"><span>TICKETS:</span><strong id="r-corte-cnt">0</strong></div>
+        <div class="flex justify-between"><span>EFECTIVO:</span><span id="r-corte-cash">$0.00</span></div>
+        <div class="flex justify-between"><span>TARJETA:</span><span id="r-corte-card">$0.00</span></div>
+        <div class="flex justify-between"><span>SPEI/QR:</span><span id="r-corte-spei">$0.00</span></div>
+      </div>
+      <button onclick="closeRetroCorte()" class="w-full py-1.5 bg-slate-900 text-white rounded-xl font-bold">[CERRAR]</button>
+    </div>
+  </div>
+
+  <div id="print-area"></div>
+
+  <script>
+    let retroBiz = BUSINESS_TEMPLATES[0];
+    let retroCart = [];
+    let retroSearchTerm = "";
+    let retroSales = [];
+    let retroFolio = 1001;
+    let retroMethod = "EFECTIVO";
+    let lastRetroSale = null;
+    let currentRetroStyleId = "retro-dos";
+
+    function applyRetroStyleTheme(styleId) {
+      currentRetroStyleId = styleId;
+      const st = (typeof STYLE_THEMES !== "undefined" && STYLE_THEMES[styleId]) 
+        ? STYLE_THEMES[styleId] 
+        : { accent: '#22c55e', border: '#4ade80', topbarBg: '#0f172a', topbarText: '#4ade80', screenBg: '#020617', textColor: '#4ade80', isDark: true };
+
+      let styleEl = document.getElementById("dynamic-pos-theme");
+      if (!styleEl) {
+        styleEl = document.createElement("style");
+        styleEl.id = "dynamic-pos-theme";
+        document.head.appendChild(styleEl);
+      }
+
+      styleEl.innerHTML = `
+        :root {
+          --theme-accent: ${st.accent};
+        }
+        body {
+          background-color: ${st.screenBg} !important;
+          color: ${st.textColor} !important;
+        }
+        header {
+          background: ${st.topbarBg} !important;
+          border-color: ${st.border} !important;
+          color: ${st.topbarText} !important;
+        }
+        header a, header button, header select {
+          border-color: ${st.border} !important;
+          color: ${st.topbarText} !important;
+          background: rgba(0, 0, 0, 0.4) !important;
+        }
+        #retro-biz-title {
+          color: ${st.topbarText} !important;
+        }
+        #retro-clock {
+          background: rgba(0, 0, 0, 0.4) !important;
+          border-color: ${st.border} !important;
+          color: ${st.topbarText} !important;
+        }
+        #retro-total {
+          color: ${st.accent} !important;
+        }
+      `;
+
+      const selStyle = document.getElementById("select-style");
+      if (selStyle && selStyle.value !== styleId) {
+        selStyle.value = styleId;
+      }
+    }
+
+    function changeRetroStyleTheme(styleId) {
+      applyRetroStyleTheme(styleId);
+      const url = new URL(window.location);
+      url.searchParams.set("style", styleId);
+      window.history.replaceState({}, '', url);
+      renderRetroProds();
+      renderRetroTicket();
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const urlGiro = urlParams.get("giro") || localStorage.getItem("pos_current_giro");
+      const urlStyle = urlParams.get("style") || "retro-dos";
+
+      const selStyle = document.getElementById("select-style");
+      if (selStyle && typeof TEMPLATE_STYLES !== "undefined") {
+        selStyle.innerHTML = TEMPLATE_STYLES.map(s => `<option value="${s.id}" ${s.id === urlStyle ? 'selected' : ''}>${s.name}</option>`).join('');
+      }
+      applyRetroStyleTheme(urlStyle);
+
+      const sel = document.getElementById("retro-select-biz");
+      sel.innerHTML = BUSINESS_TEMPLATES.map(t => `<option value="${t.id}">${t.name.toUpperCase()}</option>`).join('');
+
+      if (urlGiro) {
+        const found = BUSINESS_TEMPLATES.find(t => t.id === urlGiro);
+        if (found) retroBiz = found;
+      }
+      sel.value = retroBiz.id;
+
+      try {
+        const saved = localStorage.getItem(`pos_sales_${retroBiz.id}`);
+        if (saved) retroSales = JSON.parse(saved);
+      } catch (e) {}
+
+      retroFolio = 1000 + retroSales.length + 1;
+      document.getElementById("retro-biz-title").innerText = (retroBiz.settings.bizName || retroBiz.name).toUpperCase();
+      document.getElementById("retro-ticket-folio").innerText = `FOLIO: TK-RETRO-#${retroFolio}`;
+
+      setInterval(() => {
+        document.getElementById("retro-clock").innerText = new Date().toLocaleTimeString();
+      }, 1000);
+
+      window.addEventListener("keydown", (e) => {
+        if (e.key === "F2" && retroCart.length > 0) {
+          e.preventDefault();
+          finishRetroSale();
+        } else if (e.key === "Escape") {
+          clearRetroCart();
+        }
+      });
+
+      renderRetroProds();
+      renderRetroTicket();
+    });
+
+    function loadRetroBiz(id) {
+      const b = BUSINESS_TEMPLATES.find(x => x.id === id);
+      if (b) {
+        retroBiz = b;
+        localStorage.setItem("pos_current_giro", b.id);
+        document.getElementById("retro-biz-title").innerText = (b.settings.bizName || b.name).toUpperCase();
+        try {
+          const saved = localStorage.getItem(`pos_sales_${b.id}`);
+          retroSales = saved ? JSON.parse(saved) : [];
+        } catch (e) { retroSales = []; }
+        retroFolio = 1000 + retroSales.length + 1;
+        document.getElementById("retro-ticket-folio").innerText = `FOLIO: TK-RETRO-#${retroFolio}`;
+        retroCart = [];
+        renderRetroProds();
+        renderRetroTicket();
+      }
+    }
+
+    function filterRetro(q) {
+      retroSearchTerm = q.trim().toLowerCase();
+      renderRetroProds();
+    }
+
+    function setRetroMethod(m) {
+      retroMethod = m;
+      const bCash = document.getElementById("r-m-cash");
+      const bCard = document.getElementById("r-m-card");
+      const bSpei = document.getElementById("r-m-spei");
+
+      [bCash, bCard, bSpei].forEach(btn => btn.className = "px-2 py-0.5 rounded border border-slate-300 text-slate-700 font-bold text-[10px]");
+
+      if (m === 'EFECTIVO') bCash.className = "px-2 py-0.5 rounded border border-blue-600 bg-blue-600 text-white font-bold text-[10px]";
+      else if (m === 'TARJETA') bCard.className = "px-2 py-0.5 rounded border border-blue-600 bg-blue-600 text-white font-bold text-[10px]";
+      else bSpei.className = "px-2 py-0.5 rounded border border-blue-600 bg-blue-600 text-white font-bold text-[10px]";
+    }
+
+    function renderRetroProds() {
+      const tbody = document.getElementById("retro-prod-tbody");
+      let list = retroBiz.products;
+
+      if (retroSearchTerm) {
+        list = list.filter(p => p.name.toLowerCase().includes(retroSearchTerm) || (p.code && p.code.toLowerCase().includes(retroSearchTerm)));
+      }
+
+      document.getElementById("retro-cat-count").innerText = `${list.length} ITEMS`;
+      const curr = retroBiz.settings.currency || '$';
+
+      tbody.innerHTML = list.map(p => `
+        <tr class="hover:bg-blue-50/50 cursor-pointer transition" onclick="addRetro('${p.id}')">
+          <td class="py-2 text-blue-700 font-bold">${p.code || 'S/C'}</td>
+          <td class="py-2 font-bold text-slate-800">${p.name}</td>
+          <td class="py-2 text-slate-500 hidden sm:table-cell">${p.category}</td>
+          <td class="py-2 text-right font-black text-blue-600">${curr}${p.price.toFixed(2)}</td>
+          <td class="py-2 text-center font-bold text-blue-700">[+]</td>
+        </tr>
+      `).join('');
+    }
+
+    function addRetro(id) {
+      const prod = retroBiz.products.find(p => p.id === id);
+      if (!prod) return;
+      const ex = retroCart.find(i => i.product.id === id);
+      if (ex) ex.qty += 1;
+      else retroCart.push({ product: prod, qty: 1 });
+      renderRetroTicket();
+    }
+
+    function clearRetroCart() {
+      retroCart = [];
+      renderRetroTicket();
+    }
+
+    function renderRetroTicket() {
+      const container = document.getElementById("retro-ticket-tbody");
+      const totalEl = document.getElementById("retro-total");
+      const curr = retroBiz.settings.currency || '$';
+
+      if (retroCart.length === 0) {
+        container.innerHTML = `<div class="text-center py-8 text-slate-400 font-semibold">*** COLA DE TICKETS VACIA ***</div>`;
+        totalEl.innerText = "$0.00";
+        return;
+      }
+
+      const total = retroCart.reduce((acc, i) => acc + (i.qty * i.product.price), 0);
+      totalEl.innerText = `${curr}${total.toFixed(2)}`;
+
+      container.innerHTML = retroCart.map((i, idx) => `
+        <div class="flex justify-between items-center hover:bg-slate-50 p-1 rounded">
+          <span class="truncate flex-1 font-bold text-slate-800">${i.qty}x ${i.product.name}</span>
+          <span class="font-black text-blue-600 w-20 text-right">${curr}${(i.qty * i.product.price).toFixed(2)}</span>
+        </div>
+      `).join('');
+    }
+
+    function finishRetroSale() {
+      if (retroCart.length === 0) return;
+      const total = retroCart.reduce((acc, i) => acc + (i.qty * i.product.price), 0);
+      const curr = retroBiz.settings.currency || '$';
+
+      const sale = {
+        folio: `TK-RETRO-#${retroFolio}`,
+        date: new Date().toLocaleDateString(),
+        time: new Date().toLocaleTimeString(),
+        items: [...retroCart],
+        subtotal: total / 1.16,
+        iva: total - (total / 1.16),
+        total: total,
+        method: retroMethod,
+        bizName: retroBiz.settings.bizName || retroBiz.name
+      };
+
+      retroSales.push(sale);
+      try {
+        localStorage.setItem(`pos_sales_${retroBiz.id}`, JSON.stringify(retroSales));
+      } catch (e) {}
+
+      lastRetroSale = sale;
+      showRetroTicket(sale);
+
+      retroFolio++;
+      document.getElementById("retro-ticket-folio").innerText = `FOLIO: TK-RETRO-#${retroFolio}`;
+      clearRetroCart();
+    }
+
+    function showRetroTicket(sale) {
+      const curr = retroBiz.settings.currency || '$';
+      document.getElementById("retro-t-biz").innerText = sale.bizName.toUpperCase();
+
+      const html = `
+        <div style="font-family:'Courier New', monospace; font-size:11px;">
+          <div>FOLIO: ${sale.folio}</div>
+          <div>FECHA: ${sale.date} ${sale.time}</div>
+          <div>PAGO:  ${sale.method}</div>
+          <div>--------------------------------</div>
+          ${sale.items.map(i => `
+            <div class="flex justify-between">
+              <span>${i.qty}x ${i.product.name}</span>
+              <span>${curr}${(i.qty * i.product.price).toFixed(2)}</span>
+            </div>
+          `).join('')}
+          <div>--------------------------------</div>
+          <div class="flex justify-between"><span>SUBTOTAL:</span><span>${curr}${sale.subtotal.toFixed(2)}</span></div>
+          <div class="flex justify-between"><span>IVA (16%):</span><span>${curr}${sale.iva.toFixed(2)}</span></div>
+          <div class="flex justify-between font-black text-sm"><span>TOTAL:</span><span>${curr}${sale.total.toFixed(2)}</span></div>
+          <div>================================</div>
+          <div class="text-center pt-1">*** GRACIAS POR SU COMPRA ***</div>
+        </div>
+      `;
+
+      document.getElementById("retro-print-box").innerHTML = html;
+      document.getElementById("print-area").innerHTML = html;
+      document.getElementById("modal-retro-ticket").classList.remove("hidden");
+      document.getElementById("modal-retro-ticket").classList.add("flex");
+    }
+
+    function closeRetroTicket() {
+      document.getElementById("modal-retro-ticket").classList.add("hidden");
+      document.getElementById("modal-retro-ticket").classList.remove("flex");
+    }
+
+    function sendRetroWhatsApp() {
+      if (!lastRetroSale) return;
+      const curr = retroBiz.settings.currency || '$';
+      let text = `*COMPROBANTE TP-POS - ${lastRetroSale.bizName}*\n`;
+      text += `*Folio:* ${lastRetroSale.folio}\n`;
+      text += `*Fecha:* ${lastRetroSale.date} ${lastRetroSale.time}\n`;
+      lastRetroSale.items.forEach(i => {
+        text += `${i.qty}x ${i.product.name} = ${curr}${(i.qty * i.product.price).toFixed(2)}\n`;
+      });
+      text += `*TOTAL:* ${curr}${lastRetroSale.total.toFixed(2)}\n`;
+      text += `*Pago:* ${lastRetroSale.method}\n\n`;
+      text += `Gracias por su preferencia.`;
+
+      window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`, '_blank');
+    }
+
+    function openRetroCorte() {
+      const curr = retroBiz.settings.currency || '$';
+      const tot = retroSales.reduce((acc, s) => acc + s.total, 0);
+      const cash = retroSales.filter(s => s.method === 'EFECTIVO').reduce((acc, s) => acc + s.total, 0);
+      const card = retroSales.filter(s => s.method === 'TARJETA').reduce((acc, s) => acc + s.total, 0);
+      const spei = retroSales.filter(s => s.method === 'SPEI/QR').reduce((acc, s) => acc + s.total, 0);
+
+      document.getElementById("r-corte-tot").innerText = `${curr}${tot.toFixed(2)}`;
+      document.getElementById("r-corte-cnt").innerText = retroSales.length;
+      document.getElementById("r-corte-cash").innerText = `${curr}${cash.toFixed(2)}`;
+      document.getElementById("r-corte-card").innerText = `${curr}${card.toFixed(2)}`;
+      document.getElementById("r-corte-spei").innerText = `${curr}${spei.toFixed(2)}`;
+
+      document.getElementById("modal-retro-corte").classList.remove("hidden");
+      document.getElementById("modal-retro-corte").classList.add("flex");
+    }
+
+    function closeRetroCorte() {
+      document.getElementById("modal-retro-corte").classList.add("hidden");
+      document.getElementById("modal-retro-corte").classList.remove("flex");
+    }
+
+    function downloadCurrentRetroPOS() {
+      const blob = new Blob([document.documentElement.outerHTML], { type: "text/html;charset=utf-8" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `Punto-De-Venta-Vintage-${retroBiz.id}.html`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }
+  </script>
+
+  <!-- BOTÓN FLOTANTE: PERSONALIZAR CON IA -->
+  <button onclick="openPosAIModal()" class="fixed bottom-5 left-5 z-40 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-extrabold text-xs px-4 py-3 rounded-2xl shadow-xl flex items-center space-x-2 transition active:scale-95 border-2 border-white/20">
+    <span class="text-base">✨</span>
+    <span>Pedir a la IA que cambie esto</span>
+  </button>
+
+  <!-- MODAL DE PERSONALIZACIÓN CON IA Y CONTROL DE SUSCRIPCIÓN -->
+  <div id="modal-pos-ai" class="fixed inset-0 z-50 bg-slate-950/75 backdrop-blur-sm hidden items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-md w-full p-6 text-slate-900 shadow-2xl border-2 border-blue-600 space-y-4">
+      <div class="flex justify-between items-center border-b pb-3">
+        <div class="flex items-center space-x-2">
+          <div class="w-8 h-8 rounded-xl bg-blue-100 text-blue-700 flex items-center justify-center text-sm font-black">🤖</div>
+          <div>
+            <h3 class="font-extrabold text-sm text-slate-900">Personalizar POS con IA</h3>
+            <p class="text-[11px] text-slate-500">Pídele a la IA cambios de nombre, precios o moneda</p>
+          </div>
+        </div>
+        <button onclick="closePosAIModal()" class="text-slate-400 hover:text-slate-600">✕</button>
+      </div>
+
+      <div class="space-y-2">
+        <label class="text-xs font-bold text-slate-700">¿Qué deseas que la IA cambie en este punto de venta?</label>
+        <textarea id="pos-ai-prompt" rows="3" placeholder="Ej. Cambia el nombre a 'Minisúper El Sol' y usa la moneda en USD con precios de mayoreo..." 
+          class="w-full p-3 border-2 border-slate-200 focus:border-blue-600 rounded-xl text-xs font-bold focus:outline-none"></textarea>
+      </div>
+
+      <div class="space-y-1.5">
+        <div class="text-[10px] font-bold text-slate-400 uppercase">Sugerencias rápidas:</div>
+        <div class="flex flex-wrap gap-1">
+          <button type="button" onclick="setPosAIPrompt('Cambia el nombre de la tienda por Mi Negocio Express')" class="px-2 py-1 bg-slate-100 hover:bg-slate-200 rounded-lg text-[10px] font-bold text-slate-700">Nombre</button>
+          <button type="button" onclick="setPosAIPrompt('Aplica un aumento del 10% a todos los precios')" class="px-2 py-1 bg-slate-100 hover:bg-slate-200 rounded-lg text-[10px] font-bold text-slate-700">+10% Precios</button>
+          <button type="button" onclick="setPosAIPrompt('Cambia la moneda a USD 
+</html>)" class="px-2 py-1 bg-slate-100 hover:bg-slate-200 rounded-lg text-[10px] font-bold text-slate-700">Moneda USD</button>
+        </div>
+      </div>
+
+      <div class="pt-2 border-t flex space-x-2">
+        <button type="button" onclick="executePosAIChange()" class="flex-1 py-3 bg-blue-600 hover:bg-blue-700 text-white font-extrabold text-xs rounded-xl shadow-md transition active:scale-95 flex items-center justify-center space-x-1.5">
+          <span>✨ Aplicar con IA</span>
+        </button>
+        <button type="button" onclick="closePosAIModal()" class="px-4 py-3 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs rounded-xl transition">
+          Cancelar
+        </button>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>

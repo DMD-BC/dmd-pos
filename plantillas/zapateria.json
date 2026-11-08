@@ -1,0 +1,76 @@
+﻿{
+    "id":  "zapateria",
+    "name":  "Zapatería y Calzado",
+    "description":  "Tiendas de tenis deportivos, zapatos formales, botas y sandalias.",
+    "icon":  "footprints",
+    "settings":  {
+                     "currency":  "$",
+                     "phone":  "55 1199 8877",
+                     "address":  "Av. Madero #512",
+                     "bizName":  "Zapatería CalzaBien",
+                     "footerMessage":  "Comodidad y durabilidad en cada paso. ¡Vuelva pronto!",
+                     "taxRate":  16
+                 },
+    "products":  [
+                     {
+                         "stock":  20,
+                         "cost":  350,
+                         "code":  "ZAP01",
+                         "category":  "Deportivo",
+                         "price":  799,
+                         "name":  "Tenis Running Ultra Comfort Hombre",
+                         "minStock":  4,
+                         "id":  "1"
+                     },
+                     {
+                         "stock":  15,
+                         "cost":  420,
+                         "code":  "ZAP02",
+                         "category":  "Formal",
+                         "price":  899,
+                         "name":  "Zapatos Vestir Piel Negro Caballero",
+                         "minStock":  3,
+                         "id":  "2"
+                     },
+                     {
+                         "stock":  18,
+                         "cost":  380,
+                         "code":  "ZAP03",
+                         "category":  "Botas",
+                         "price":  749,
+                         "name":  "Botines Casuales Dama Tacón Medio",
+                         "minStock":  4,
+                         "id":  "3"
+                     },
+                     {
+                         "stock":  30,
+                         "cost":  90,
+                         "code":  "ZAP04",
+                         "category":  "Sandalias",
+                         "price":  220,
+                         "name":  "Sandalias Cómodas Playa/Piscina",
+                         "minStock":  6,
+                         "id":  "4"
+                     },
+                     {
+                         "stock":  25,
+                         "cost":  18,
+                         "code":  "ZAP05",
+                         "category":  "Cuidado",
+                         "price":  45,
+                         "name":  "Grasa Crema Lustradora para Calzado",
+                         "minStock":  5,
+                         "id":  "5"
+                     },
+                     {
+                         "stock":  40,
+                         "cost":  35,
+                         "code":  "ZAP06",
+                         "category":  "Accesorios",
+                         "price":  89,
+                         "name":  "Calcetas Deportivas Paquete 3 Pares",
+                         "minStock":  8,
+                         "id":  "6"
+                     }
+                 ]
+}

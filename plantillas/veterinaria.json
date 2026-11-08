@@ -1,0 +1,86 @@
+﻿{
+    "id":  "veterinaria",
+    "name":  "Veterinaria y Pet Shop",
+    "description":  "Alimentos para mascotas, farmacia veterinaria, accesorios y baños.",
+    "icon":  "dog",
+    "settings":  {
+                     "currency":  "$",
+                     "phone":  "55 8899 0011",
+                     "address":  "Blvd. de las Mascotas #205",
+                     "bizName":  "Clínica Veterinaria \u0026 Pet Shop Huellitas",
+                     "footerMessage":  "Amamos y cuidamos a tu mejor amigo. Citas y urgencias.",
+                     "taxRate":  16
+                 },
+    "products":  [
+                     {
+                         "stock":  15,
+                         "cost":  520,
+                         "code":  "PET01",
+                         "category":  "Alimento",
+                         "price":  780,
+                         "name":  "Alimento Perro Adulto Bulto 15kg",
+                         "minStock":  3,
+                         "id":  "1"
+                     },
+                     {
+                         "stock":  20,
+                         "cost":  140,
+                         "code":  "PET02",
+                         "category":  "Alimento",
+                         "price":  225,
+                         "name":  "Alimento Gato Sabor Pescado 3kg",
+                         "minStock":  4,
+                         "id":  "2"
+                     },
+                     {
+                         "stock":  25,
+                         "cost":  65,
+                         "code":  "PET03",
+                         "category":  "Higiene",
+                         "price":  120,
+                         "name":  "Arena para Gato Aglutinante 5kg",
+                         "minStock":  5,
+                         "id":  "3"
+                     },
+                     {
+                         "stock":  30,
+                         "cost":  85,
+                         "code":  "PET04",
+                         "category":  "Farmacia",
+                         "price":  175,
+                         "name":  "Pipeta Antipulgas y Garrapatas Perro",
+                         "minStock":  6,
+                         "id":  "4"
+                     },
+                     {
+                         "stock":  14,
+                         "cost":  90,
+                         "code":  "PET05",
+                         "category":  "Paseo",
+                         "price":  210,
+                         "name":  "Correa Retráctil 5 Metros Resistente",
+                         "minStock":  3,
+                         "id":  "5"
+                     },
+                     {
+                         "stock":  18,
+                         "cost":  48,
+                         "code":  "PET06",
+                         "category":  "Higiene",
+                         "price":  115,
+                         "name":  "Shampoo Hipoalergénico Avena 500ml",
+                         "minStock":  4,
+                         "id":  "6"
+                     },
+                     {
+                         "stock":  999,
+                         "cost":  40,
+                         "code":  "PET07",
+                         "category":  "Servicios",
+                         "price":  180,
+                         "name":  "Servicio de Baño y Corte Raza Pequeña",
+                         "minStock":  50,
+                         "id":  "7"
+                     }
+                 ]
+}

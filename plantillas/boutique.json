@@ -1,0 +1,76 @@
+﻿{
+    "id":  "boutique",
+    "name":  "Boutique de Ropa y Moda",
+    "description":  "Tiendas de ropa para dama, caballero, niños y accesorios de vestir.",
+    "icon":  "shirt",
+    "settings":  {
+                     "currency":  "$",
+                     "phone":  "55 7788 9900",
+                     "address":  "Plaza Comercial Galerías Local 24",
+                     "bizName":  "Boutique Trendy Chic",
+                     "footerMessage":  "Viste con estilo y confianza. Cambios hasta 15 días con ticket.",
+                     "taxRate":  16
+                 },
+    "products":  [
+                     {
+                         "stock":  45,
+                         "cost":  80,
+                         "code":  "ROP01",
+                         "category":  "Playeras",
+                         "price":  189,
+                         "name":  "Playera Algodón Básica Cuello Redondo",
+                         "minStock":  10,
+                         "id":  "1"
+                     },
+                     {
+                         "stock":  30,
+                         "cost":  220,
+                         "code":  "ROP02",
+                         "category":  "Pantalones",
+                         "price":  490,
+                         "name":  "Jeans Mezclilla Slim Fit",
+                         "minStock":  8,
+                         "id":  "2"
+                     },
+                     {
+                         "stock":  25,
+                         "cost":  120,
+                         "code":  "ROP03",
+                         "category":  "Blusas",
+                         "price":  285,
+                         "name":  "Blusa Casual con Estampado Floral",
+                         "minStock":  5,
+                         "id":  "3"
+                     },
+                     {
+                         "stock":  20,
+                         "cost":  190,
+                         "code":  "ROP04",
+                         "category":  "Abrigos",
+                         "price":  420,
+                         "name":  "Sudadera Oversize con Capucha",
+                         "minStock":  4,
+                         "id":  "4"
+                     },
+                     {
+                         "stock":  15,
+                         "cost":  180,
+                         "code":  "ROP05",
+                         "category":  "Vestidos",
+                         "price":  399,
+                         "name":  "Vestido Midi de Verano Tirantes",
+                         "minStock":  3,
+                         "id":  "5"
+                     },
+                     {
+                         "stock":  20,
+                         "cost":  95,
+                         "code":  "ROP06",
+                         "category":  "Accesorios",
+                         "price":  220,
+                         "name":  "Cinturón Piel Genuina Hebilla Metálica",
+                         "minStock":  5,
+                         "id":  "6"
+                     }
+                 ]
+}

@@ -1,0 +1,76 @@
+﻿{
+    "id":  "lavanderia",
+    "name":  "Lavandería y Tintorería",
+    "description":  "Lavado por kilo, tintorería, planchado y lavado de cobertores.",
+    "icon":  "waves",
+    "settings":  {
+                     "currency":  "$",
+                     "phone":  "55 7788 3344",
+                     "address":  "Calle Los Fresnos #212",
+                     "bizName":  "Lavandería \u0026 Tintorería Burbujas Limpias",
+                     "footerMessage":  "Cuidamos tus prendas con amor. Reclamos dentro de 48 horas.",
+                     "taxRate":  16
+                 },
+    "products":  [
+                     {
+                         "stock":  999,
+                         "cost":  18,
+                         "code":  "LAV01",
+                         "category":  "Lavado",
+                         "price":  75,
+                         "name":  "Carga de Lavado y Secado (hasta 6kg)",
+                         "minStock":  50,
+                         "id":  "1"
+                     },
+                     {
+                         "stock":  999,
+                         "cost":  25,
+                         "code":  "LAV02",
+                         "category":  "Planchado",
+                         "price":  120,
+                         "name":  "Servicio Planchado de Camisas / Prendas (Docena)",
+                         "minStock":  50,
+                         "id":  "2"
+                     },
+                     {
+                         "stock":  999,
+                         "cost":  28,
+                         "code":  "LAV03",
+                         "category":  "Blancos",
+                         "price":  140,
+                         "name":  "Lavado de Edredón / Cobertores King Size",
+                         "minStock":  20,
+                         "id":  "3"
+                     },
+                     {
+                         "stock":  999,
+                         "cost":  35,
+                         "code":  "LAV04",
+                         "category":  "Tintorería",
+                         "price":  160,
+                         "name":  "Tintorería Traje Completo 2 Piezas",
+                         "minStock":  20,
+                         "id":  "4"
+                     },
+                     {
+                         "stock":  999,
+                         "cost":  45,
+                         "code":  "LAV05",
+                         "category":  "Tintorería",
+                         "price":  190,
+                         "name":  "Tintorería Vestido de Noche o Fiesta",
+                         "minStock":  20,
+                         "id":  "5"
+                     },
+                     {
+                         "stock":  30,
+                         "cost":  22,
+                         "code":  "LAV06",
+                         "category":  "Productos",
+                         "price":  45,
+                         "name":  "Detergente Líquido Aroma Floral Botella 1L",
+                         "minStock":  5,
+                         "id":  "6"
+                     }
+                 ]
+}

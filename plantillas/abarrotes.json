@@ -1,0 +1,96 @@
+﻿{
+    "id":  "abarrotes",
+    "name":  "Abarrotes y Minisuper",
+    "description":  "Tiendas de conveniencia, misceláneas, abarrotes y víveres.",
+    "icon":  "shopping-basket",
+    "settings":  {
+                     "currency":  "$",
+                     "phone":  "55 1234 5678",
+                     "address":  "Calle Morelos #102, Col. Centro",
+                     "bizName":  "Minisuper La Bendición",
+                     "footerMessage":  "¡Gracias por su compra en su tienda de confianza!",
+                     "taxRate":  0
+                 },
+    "products":  [
+                     {
+                         "stock":  60,
+                         "cost":  13,
+                         "code":  "75010001",
+                         "category":  "Bebidas",
+                         "price":  18.5,
+                         "name":  "Coca Cola 600ml No Retornable",
+                         "minStock":  12,
+                         "id":  "1"
+                     },
+                     {
+                         "stock":  40,
+                         "cost":  9,
+                         "code":  "75010002",
+                         "category":  "Bebidas",
+                         "price":  15,
+                         "name":  "Agua Purificada 1.5L",
+                         "minStock":  10,
+                         "id":  "2"
+                     },
+                     {
+                         "stock":  30,
+                         "cost":  12.5,
+                         "code":  "75010003",
+                         "category":  "Botanas",
+                         "price":  18,
+                         "name":  "Papas Sal 50g",
+                         "minStock":  8,
+                         "id":  "3"
+                     },
+                     {
+                         "stock":  15,
+                         "cost":  30,
+                         "code":  "75010004",
+                         "category":  "Panadería",
+                         "price":  44,
+                         "name":  "Pan de Caja Blanco 680g",
+                         "minStock":  5,
+                         "id":  "4"
+                     },
+                     {
+                         "stock":  24,
+                         "cost":  20,
+                         "code":  "75010005",
+                         "category":  "Lácteos",
+                         "price":  28,
+                         "name":  "Leche Entera Tetrapack 1L",
+                         "minStock":  6,
+                         "id":  "5"
+                     },
+                     {
+                         "stock":  35,
+                         "cost":  15,
+                         "code":  "75010006",
+                         "category":  "Enlatados",
+                         "price":  22.5,
+                         "name":  "Atún en Agua Lata 140g",
+                         "minStock":  10,
+                         "id":  "6"
+                     },
+                     {
+                         "stock":  20,
+                         "cost":  19,
+                         "code":  "75010007",
+                         "category":  "Granos",
+                         "price":  27,
+                         "name":  "Arroz Grano Grueso 1kg",
+                         "minStock":  5,
+                         "id":  "7"
+                     },
+                     {
+                         "stock":  18,
+                         "cost":  26,
+                         "code":  "75010008",
+                         "category":  "Limpieza",
+                         "price":  37,
+                         "name":  "Detergente en Polvo 900g",
+                         "minStock":  4,
+                         "id":  "8"
+                     }
+                 ]
+}

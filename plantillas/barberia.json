@@ -1,0 +1,76 @@
+﻿{
+    "id":  "barberia",
+    "name":  "Barbería y Salón de Belleza",
+    "description":  "Barberías masculinas, salones de belleza, estética y spa.",
+    "icon":  "scissors",
+    "settings":  {
+                     "currency":  "$",
+                     "phone":  "55 4321 8765",
+                     "address":  "Calle Londres #77, Zona Rosa",
+                     "bizName":  "Barbería \u0026 Estilo El Caballero",
+                     "footerMessage":  "Tu imagen es tu mejor carta de presentación. ¡Vuelve pronto!",
+                     "taxRate":  16
+                 },
+    "products":  [
+                     {
+                         "stock":  999,
+                         "cost":  20,
+                         "code":  "BAR01",
+                         "category":  "Servicios",
+                         "price":  150,
+                         "name":  "Corte Clásico / Fade con Navaja",
+                         "minStock":  50,
+                         "id":  "1"
+                     },
+                     {
+                         "stock":  999,
+                         "cost":  15,
+                         "code":  "BAR02",
+                         "category":  "Servicios",
+                         "price":  110,
+                         "name":  "Perfilado y Arreglo de Barba con Toalla Caliente",
+                         "minStock":  50,
+                         "id":  "2"
+                     },
+                     {
+                         "stock":  999,
+                         "cost":  35,
+                         "code":  "BAR03",
+                         "category":  "Paquetes",
+                         "price":  230,
+                         "name":  "Paquete Completo (Corte + Barba + Mascarilla)",
+                         "minStock":  50,
+                         "id":  "3"
+                     },
+                     {
+                         "stock":  24,
+                         "cost":  65,
+                         "code":  "BAR04",
+                         "category":  "Productos",
+                         "price":  160,
+                         "name":  "Pomada Fijadora Efecto Mate 100g",
+                         "minStock":  5,
+                         "id":  "4"
+                     },
+                     {
+                         "stock":  16,
+                         "cost":  75,
+                         "code":  "BAR05",
+                         "category":  "Productos",
+                         "price":  185,
+                         "name":  "Aceite Hidratante para Barba 30ml",
+                         "minStock":  3,
+                         "id":  "5"
+                     },
+                     {
+                         "stock":  18,
+                         "cost":  55,
+                         "code":  "BAR06",
+                         "category":  "Productos",
+                         "price":  140,
+                         "name":  "Cera Negra Cubrecintas 150ml",
+                         "minStock":  4,
+                         "id":  "6"
+                     }
+                 ]
+}

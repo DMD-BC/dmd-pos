@@ -1,0 +1,76 @@
+﻿{
+    "id":  "joyeria",
+    "name":  "Joyería y Accesorios",
+    "description":  "Joyería fina en plata, oro laminado, relojería y bisutería fina.",
+    "icon":  "gem",
+    "settings":  {
+                     "currency":  "$",
+                     "phone":  "55 2233 4455",
+                     "address":  "Centro Joyero Piso 2 Local 201",
+                     "bizName":  "Joyería \u0026 Relojería Diamante Real",
+                     "footerMessage":  "Plata Ley .925 garantizada. Incluye estuche de regalo.",
+                     "taxRate":  16
+                 },
+    "products":  [
+                     {
+                         "stock":  12,
+                         "cost":  280,
+                         "code":  "JOY01",
+                         "category":  "Cadenas",
+                         "price":  650,
+                         "name":  "Cadena de Plata Ley .925 Tejido Fígaro 50cm",
+                         "minStock":  3,
+                         "id":  "1"
+                     },
+                     {
+                         "stock":  10,
+                         "cost":  190,
+                         "code":  "JOY02",
+                         "category":  "Anillos",
+                         "price":  480,
+                         "name":  "Anillo Compromiso Plata con Zirconia",
+                         "minStock":  2,
+                         "id":  "2"
+                     },
+                     {
+                         "stock":  20,
+                         "cost":  75,
+                         "code":  "JOY03",
+                         "category":  "Aretes",
+                         "price":  195,
+                         "name":  "Aretes Broquel Oro Laminado 18k Bolita",
+                         "minStock":  5,
+                         "id":  "3"
+                     },
+                     {
+                         "stock":  8,
+                         "cost":  320,
+                         "code":  "JOY04",
+                         "category":  "Relojes",
+                         "price":  790,
+                         "name":  "Reloj Cuarzo Hombre Extensible Acero",
+                         "minStock":  2,
+                         "id":  "4"
+                     },
+                     {
+                         "stock":  14,
+                         "cost":  210,
+                         "code":  "JOY05",
+                         "category":  "Pulseras",
+                         "price":  520,
+                         "name":  "Pulsera Tejido Cartier Plata .925",
+                         "minStock":  3,
+                         "id":  "5"
+                     },
+                     {
+                         "stock":  25,
+                         "cost":  30,
+                         "code":  "JOY06",
+                         "category":  "Limpieza",
+                         "price":  85,
+                         "name":  "Líquido Limpiador de Plata y Joyas 120ml",
+                         "minStock":  5,
+                         "id":  "6"
+                     }
+                 ]
+}
