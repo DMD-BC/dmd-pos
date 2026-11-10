@@ -183,7 +183,7 @@ Simular otro plan
 </button>
 <button onclick="openPremiumModal()" id="btn-upgrade-topbar" class="border-2 border-blue-600 bg-white hover:bg-blue-50 text-blue-700 font-bold text-xs px-4 py-2 rounded-xl shadow-xs flex items-center space-x-1.5 transition active:scale-95">
 <i data-lucide="crown" class="w-4 h-4 text-blue-600 fill-current"></i>
-<span>Membresía Premium ($79/mes)</span>
+<span>Plan Emprendedor Pro ($79 MXN/mes)</span>
 </button>
 </div>
 </div>
@@ -195,7 +195,7 @@ Simular otro plan
 </div>
 <h1 class="text-3xl md:text-4xl font-extrabold text-slate-900 tracking-tight">Catálogo de Puntos de Venta</h1>
 <p class="text-slate-500 text-xs md:text-sm mt-1 max-w-2xl leading-relaxed">
-Explora los 20 giros de negocio con fondo claro y botones de contorno azul rey. En la <strong>Versión Gratuita</strong> cuentas con 3 plantillas por giro y en la <strong>Versión Premium ($79 MXN/mes)</strong> tienes acceso completo.
+Explora los 20 giros de negocio con fondo claro y botones de contorno azul rey. En la <strong>Versión Gratuita</strong> cuentas con 3 plantillas por giro y en la <strong>Plan Emprendedor Pro ($79 MXN/mes)</strong> tienes acceso completo.
 </p>
 </div>
 <div class="flex items-center space-x-3">
@@ -562,7 +562,7 @@ const btnUpgrade = document.getElementById("btn-upgrade-topbar");
 const tierTemplatesBadge = document.getElementById("tier-templates-badge");
 if (userTier === "PREMIUM") {
 tierBadge.className = "px-3 py-1 rounded-full font-black text-xs bg-amber-50 text-amber-900 border-2 border-amber-500 flex items-center space-x-1.5 shadow-sm";
-tierText.innerText = "PREMIUM ACTIVO ($79/mes)";
+tierText.innerText = "EMPRENDEDOR PRO ACTIVO ($79 MXN/mes)";
 tierDesc.innerText = "Acceso ilimitado a las 20 plantillas de cada giro";
 btnUpgrade.classList.add("hidden");
 if (tierTemplatesBadge) {
@@ -604,7 +604,7 @@ localStorage.setItem("dmd_user_tier", "PREMIUM");
 localStorage.setItem("posts_user_tier", "PREMIUM");
 localStorage.setItem("ads_user_tier", "PREMIUM");
 if (typeof window.addToCart === "function") {
-window.addToCart("Membresía Premium TkPOS ($79/mes)", 79, "Suscripción");
+window.addToCart("Plan Emprendedor Pro TkPOS ($79 MXN/mes)", 79, "Suscripción");
 }
 updateTierUI();
 closePremiumModal();
@@ -612,7 +612,7 @@ renderTemplatesGrid();
 if (typeof window.showDmdToast === "function") {
 window.showDmdToast("¡Membresía Activada!", "Has desbloqueado el catálogo completo de plantillas.", "success");
 } else {
-alert("¡Felicidades! Has activado TkPOS Premium ($79 MXN/mes). Todas las 20 plantillas han sido desbloqueadas.");
+alert("¡Felicidades! Has activado Plan Emprendedor Pro TkPOS ($79 MXN/mes). Todas las 20 plantillas han sido desbloqueadas.");
 }
 }
 function renderGirosNav() {
